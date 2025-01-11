@@ -1,6 +1,7 @@
 <!-- A Simple test... -->
 <template>
   <TooltipProvider>
+    <NavBar />
     <div class="p-4 max-w-7xl mx-auto">
       <div class="flex items-center gap-4 mb-6">
         <SophonAvatar />
@@ -18,12 +19,14 @@
 <script>
 import Card from './components/CardsList.vue';
 import SophonAvatar from './components/SophonAvatar.vue';
+import NavBar from './components/NavBar.vue';
 import { TooltipProvider } from 'radix-vue';
 
 export default {
   components: {
     Card,
     SophonAvatar,
+    NavBar,
     TooltipProvider
   },
   data() {
