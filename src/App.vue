@@ -1,8 +1,10 @@
 <!-- A Simple test... -->
 <template>
-  <div>
-    <div v-for="(node, index) in nodes" :key="index">
-      <Card :node="node" />
+  <div class="p-4 max-w-7xl mx-auto">
+    <div class="space-y-4">
+      <div v-for="(node, index) in nodes" :key="index">
+        <Card :node="node" />
+      </div>
     </div>
   </div>
 </template>
