@@ -1,2 +1,2 @@
 # sophon-nodes-dash
-A Sophon Nodes Dashboard front-end.
+The Sophon Nodes Dashboard front-end.
