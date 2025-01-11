@@ -17,9 +17,9 @@ export default {
   data() {
     return {
       progressGroups: [
-        { segments: Array(6).fill(0) }, // Primeiro grupo com 6 segmentos
-        { segments: Array(2).fill(0) }, // Segundo grupo com 2 segmentos
-        { segments: Array(2).fill(0) }  // Terceiro grupo com 2 segmentos
+        { segments: Array(6).fill(0) },
+        { segments: Array(2).fill(0) },
+        { segments: Array(2).fill(0) }
       ],
     };
   },
@@ -28,11 +28,9 @@ export default {
       return this.progressGroups.reduce((total, group) => total + group.segments.length, 0);
     },
     activeSegments() {
-      // Calcula o número total de segmentos ativos
       return Math.floor((this.uptimePercentage / 100) * this.totalSegments);
     },
     progressColor() {
-      // Determina a cor baseada no uptimePercentage
       if (this.uptimePercentage > 90) {
         return 'green';
       } else if (this.uptimePercentage > 50) {
@@ -45,7 +43,6 @@ export default {
   methods: {
     getSegmentClass(groupIndex, segmentIndex) {
       let segmentCount = 0;
-      // Conta os segmentos nos grupos anteriores
       for (let i = 0; i < groupIndex; i++) {
         segmentCount += this.progressGroups[i].segments.length;
       }
@@ -54,17 +51,14 @@ export default {
       let groupEnd = segmentCount - segmentIndex + this.progressGroups[groupIndex].segments.length;
       let groupStart = segmentCount - segmentIndex;
       
-      // Verifica se algum segmento no grupo está ativo
       let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
       
       if (segmentCount < this.activeSegments) {
         return `${this.progressColor}-segment`;
       } else {
-        // Se o grupo não tem segmentos ativos, usamos o estilo padrão para inativos
         if (!hasActiveSegments) {
           return 'inactive-segment';
         } else {
-          // Se há segmentos ativos no grupo, usamos a cor de fundo baseada no progressColor
           return `inactive-${this.progressColor}-segment`;
         }
       }
@@ -77,20 +71,15 @@ export default {
       let groupEnd = segmentCount + this.progressGroups[groupIndex].segments.length;
       let groupStart = segmentCount;
       
-      // Verifica se todos os segmentos no grupo estão ativos
       let allActiveSegments = this.activeSegments >= groupEnd;
       
-      // Verifica se algum segmento no grupo está ativo
       let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
       
-      // Se todos os segmentos estão ativos, aplicamos a cor do progressColor
       if (allActiveSegments) {
         return this.progressColor;
       } else if (hasActiveSegments) {
-        // Se pelo menos um segmento está ativo, mas não todos
         return this.progressColor;
       } else {
-        // Se nenhum segmento está ativo
         return 'inactive-bar';
       }
     }
@@ -116,12 +105,10 @@ export default {
   border-radius: 9999px;
 }
 
-/* Estilos para o container progress-bar quando inativo */
 .progress-bar.inactive-bar {
   background: #272727;
 }
 
-/* Estilos para o container progress-bar baseado no estado de uptime */
 .progress-bar.red {
   background: #6C0404;
 }
@@ -144,13 +131,11 @@ export default {
   border-right: none;
 }
 
-/* Estilos para segmentos inativos quando o progress-bar está completamente inativo */
 .inactive-segment {
   border: 1px solid #373737;
   background: #1A1A1A;
 }
 
-/* Estilos para cada estado de uptime dos segmentos ativos */
 .red-segment {
   border: 1px solid #FF6363;
   background: #E00000;
@@ -166,7 +151,6 @@ export default {
   background: #34C85A;
 }
 
-/* Estilos para segmentos inativos quando o progress-bar tem pelo menos um segmento ativo */
 .inactive-red-segment {
   border: 1px solid #300;
   background: #300;
