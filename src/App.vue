@@ -30,5 +30,7 @@ export default {
 <style>
 html {
   background: radial-gradient(57.45% 50% at 50% -4.87%, rgba(43, 149, 255, 0.10) 39.4%, rgba(0, 0, 0, 0.00) 100%), #0A0C10;
+  height: 100%;
+  width: 100%;
 }
 </style>
