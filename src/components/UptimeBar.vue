@@ -1,7 +1,7 @@
 <template>     
-    <div class="progress-bar-container">
-      <div class="progress-bar" :class="getBarClass(index)" v-for="(group, index) in progressGroups" :key="index">
-        <div v-for="(segment, segIndex) in group.segments" :key="segIndex" class="progress-segment" :class="getSegmentClass(index, segIndex)"></div>
+    <div class="mt-2.5 flex items-start gap-1 self-stretch">
+      <div class="progress-bar flex p-[3px] items-center gap-[3px] self-stretch rounded-full" :class="getBarClass(index)" v-for="(group, index) in progressGroups" :key="index">
+        <div v-for="(segment, segIndex) in group.segments" :key="segIndex" class="progress-segment h-3 w-9 rounded-full" :class="getSegmentClass(index, segIndex)"></div>
       </div>
     </div>
 </template>
@@ -87,7 +87,6 @@ export default {
       let groupStart = segmentCount;
       
       let allActiveSegments = this.activeSegments >= groupEnd;
-      
       let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
       
       if (allActiveSegments) {
@@ -103,27 +102,6 @@ export default {
 </script>
 
 <style scoped>
-.progress-bar-container {
-  margin-top: 10px;
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  align-self: stretch;
-}
-
-.progress-bar {
-  display: flex;
-  padding: 3px;
-  align-items: center;
-  gap: 3px;
-  align-self: stretch;
-  border-radius: 9999px;
-}
-
-.progress-bar.inactive-bar {
-  background: #272727;
-}
-
 .progress-bar.red {
   background: #6C0404;
 }
@@ -136,14 +114,8 @@ export default {
   background: #21432A;
 }
 
-.progress-segment {
-  width: 36px;
-  height: 12px;
-  border-radius: 9999px;
-}
-
-.progress-segment:last-child {
-  border-right: none;
+.progress-bar.inactive-bar {
+  background: #272727;
 }
 
 .inactive-segment {

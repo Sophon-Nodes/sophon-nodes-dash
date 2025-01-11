@@ -1,16 +1,16 @@
 <template>
-    <div class="cardp">
-      <p class="textc">Operator: {{ node.operador }}</p>
-      <UptimeBar :uptimePercentage="node.uptime" />
-    </div>
+  <div class="mb-10">
+    <p class="text-white">Operator: {{ node.operador }}</p>
+    <UptimeBar :uptimePercentage="node.uptime" />
+  </div>
 </template>
-  
+
 <script>
   import UptimeBar from './UptimeBar.vue';
-  
+
   export default {
     components: {
-        UptimeBar
+      UptimeBar
     },
     props: {
       node: {
@@ -20,12 +20,12 @@
     }
   }
 </script>
-  
+
 <style scoped>
-  .cardp {
+  /* .cardp {
     margin-bottom: 10px;
   }
   .textc {
     color: white;
-  }
+  } */
 </style>
