@@ -5,7 +5,7 @@ import { ref } from 'vue'
 // Test data for example
 const avatars = [
   { 
-    src: new URL('../assets/parallax.jpg', import.meta.url).href,
+    src: new URL('../assets/images/placeholder/parallax.jpg', import.meta.url).href,
     alt: 'Parallax',
     tooltip: 'Parallax'
   }
