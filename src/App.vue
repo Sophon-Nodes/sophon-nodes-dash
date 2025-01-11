@@ -19,7 +19,7 @@ export default {
       nodes: [
         {uptime: 95, operador: "1"},
         {uptime: 75, operador: "2"},
-        {uptime: 60, operador: "3"},
+        {uptime: 59.999, operador: "3"},
         {uptime: 45, operador: "4"}
       ]
     };

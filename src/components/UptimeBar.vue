@@ -28,12 +28,27 @@ export default {
       return this.progressGroups.reduce((total, group) => total + group.segments.length, 0);
     },
     activeSegments() {
-      return Math.floor((this.uptimePercentage / 100) * this.totalSegments);
+      if (this.uptimePercentage < 60) {
+        // Scale 0-59.99% across 6 segments
+        return Math.min(6, Math.ceil((this.uptimePercentage / 60) * 6));
+      } else if (this.uptimePercentage < 70) {
+        // 60-69.99% = 7 segments
+        return 7;
+      } else if (this.uptimePercentage < 80) {
+        // 70-79.99% = 8 segments
+        return 8;
+      } else if (this.uptimePercentage < 90) {
+        // 80-89.99% = 9 segments
+        return 9;
+      } else {
+        // 90-100% = 10 segments
+        return 10;
+      }
     },
     progressColor() {
-      if (this.uptimePercentage > 90) {
+      if (this.uptimePercentage >= 80) {
         return 'green';
-      } else if (this.uptimePercentage > 50) {
+      } else if (this.uptimePercentage >= 60) {
         return 'blue';
       } else {
         return 'red';
