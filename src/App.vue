@@ -1,20 +1,30 @@
 <!-- A Simple test... -->
 <template>
-  <div class="p-4 max-w-7xl mx-auto">
-    <div class="space-y-4">
-      <div v-for="(node, index) in nodes" :key="index">
-        <Card :node="node" />
+  <TooltipProvider>
+    <div class="p-4 max-w-7xl mx-auto">
+      <div class="flex items-center gap-4 mb-6">
+        <SophonAvatar />
+        <h1 class="text-2xl font-bold text-white">Sophon Nodes Dashboard</h1>
+      </div>
+      <div class="space-y-4">
+        <div v-for="(node, index) in nodes" :key="index">
+          <Card :node="node" />
+        </div>
       </div>
     </div>
-  </div>
+  </TooltipProvider>
 </template>
 
 <script>
 import Card from './components/CardsList.vue';
+import SophonAvatar from './components/SophonAvatar.vue';
+import { TooltipProvider } from 'radix-vue';
 
 export default {
   components: {
-    Card
+    Card,
+    SophonAvatar,
+    TooltipProvider
   },
   data() {
     return {
