@@ -5,9 +5,9 @@ import { ref } from 'vue'
 // Test data for example
 const avatars = [
   { 
-    src: new URL('../assets/images/placeholder/parallax.jpg', import.meta.url).href,
-    alt: 'Parallax',
-    tooltip: 'Parallax'
+    src: new URL('../assets/images/placeholder/sophon-avatar-1.png', import.meta.url).href,
+    alt: 'Sophon Avatar',
+    tooltip: 'Sophon Avatar'
   }
 ]
 
