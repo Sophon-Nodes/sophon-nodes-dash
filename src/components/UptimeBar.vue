@@ -1,7 +1,11 @@
 <template>     
-    <div class="mt-2.5 flex items-start gap-1 self-stretch">
-      <div class="progress-bar flex p-[3px] items-center gap-[3px] self-stretch rounded-full" :class="getBarClass(index)" v-for="(group, index) in progressGroups" :key="index">
-        <div v-for="(segment, segIndex) in group.segments" :key="segIndex" class="progress-segment h-3 w-9 rounded-full" :class="getSegmentClass(index, segIndex)"></div>
+    <div class="mt-2.5 grid grid-cols-10 gap-1 self-stretch">
+      <div v-for="(group, index) in progressGroups" :key="index"
+           class="progress-bar flex p-[2px] items-center gap-[3px] self-stretch rounded-full"
+           :class="[getBarClass(index), index === 0 ? 'col-span-6' : 'col-span-2']">
+        <div v-for="(segment, segIndex) in group.segments" :key="segIndex" 
+             class="progress-segment h-2.5 flex-1 rounded-full" 
+             :class="getSegmentClass(index, segIndex)"></div>
       </div>
     </div>
 </template>
@@ -12,6 +16,10 @@ export default {
     uptimePercentage: {
       type: Number,
       required: true
+    },
+    isActive: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -44,112 +52,78 @@ export default {
         // 90-100% = 10 segments
         return 10;
       }
-    },
-    progressColor() {
-      if (this.uptimePercentage >= 80) {
-        return 'green';
-      } else if (this.uptimePercentage >= 60) {
-        return 'blue';
-      } else {
-        return 'red';
-      }
     }
   },
   methods: {
-    getSegmentClass(groupIndex, segmentIndex) {
-      let segmentCount = 0;
-      for (let i = 0; i < groupIndex; i++) {
-        segmentCount += this.progressGroups[i].segments.length;
-      }
-      segmentCount += segmentIndex;
+    getBarClass(groupIndex) {
+      if (!this.isActive) return 'bg-gray-900';
       
-      let groupEnd = segmentCount - segmentIndex + this.progressGroups[groupIndex].segments.length;
-      let groupStart = segmentCount - segmentIndex;
-      
-      let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
-      
-      if (segmentCount < this.activeSegments) {
-        return `${this.progressColor}-segment`;
+      if (groupIndex === 0) {
+        return this.uptimePercentage < 60 ? 'bg-red-900' : 'bg-green-900';
+      } else if (groupIndex === 1) {
+        return this.uptimePercentage < 80 ? 'bg-red-900' : 'bg-green-900';
       } else {
-        if (!hasActiveSegments) {
-          return 'inactive-segment';
-        } else {
-          return `inactive-${this.progressColor}-segment`;
-        }
+        return this.uptimePercentage < 90 ? 'bg-red-900' : 'bg-green-900';
       }
     },
-    getBarClass(groupIndex) {
-      let segmentCount = 0;
+    getSegmentClass(groupIndex, segmentIndex) {
+      if (!this.isActive) return 'bg-gray-700';
+
+      let totalPreviousSegments = 0;
       for (let i = 0; i < groupIndex; i++) {
-        segmentCount += this.progressGroups[i].segments.length;
+        totalPreviousSegments += this.progressGroups[i].segments.length;
       }
-      let groupEnd = segmentCount + this.progressGroups[groupIndex].segments.length;
-      let groupStart = segmentCount;
-      
-      let allActiveSegments = this.activeSegments >= groupEnd;
-      let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
-      
-      if (allActiveSegments) {
-        return this.progressColor;
-      } else if (hasActiveSegments) {
-        return this.progressColor;
-      } else {
-        return 'inactive-bar';
+      const currentSegmentNumber = totalPreviousSegments + segmentIndex + 1;
+
+      if (currentSegmentNumber <= this.activeSegments) {
+        if (groupIndex === 0) {
+          return this.uptimePercentage < 60 ? 'bg-red-500' : 'bg-green-500';
+        } else if (groupIndex === 1) {
+          return this.uptimePercentage < 80 ? 'bg-red-500' : 'bg-green-500';
+        } else {
+          return this.uptimePercentage < 90 ? 'bg-red-500' : 'bg-green-500';
+        }
       }
+      return 'bg-gray-700';
     }
   }
 }
 </script>
 
 <style scoped>
-.progress-bar.red {
+.progress-bar.bg-red-900 {
   background: #6C0404;
 }
 
-.progress-bar.blue {
+.progress-bar.bg-blue-900 {
   background: #053B7A;
 }
 
-.progress-bar.green {
+.progress-bar.bg-green-900 {
   background: #21432A;
 }
 
-.progress-bar.inactive-bar {
+.progress-bar.bg-gray-900 {
   background: #272727;
 }
 
-.inactive-segment {
+.bg-gray-700 {
   border: 1px solid #373737;
   background: #1A1A1A;
 }
 
-.red-segment {
+.bg-red-500 {
   border: 1px solid #FF6363;
   background: #E00000;
 }
 
-.blue-segment {
+.bg-blue-500 {
   border: 1px solid #63B6FF;
   background: #0079FE;
 }
 
-.green-segment {
+.bg-green-500 {
   border: 1px solid #87E8A1;
   background: #34C85A;
-}
-
-.inactive-red-segment {
-  border: 1px solid #300;
-  background: #300;
-}
-
-.inactive-blue-segment {
-  border: 1px solid #002042;
-  background: #002042;
-}
-
-.inactive-green-segment {
-  border: 1px solid #0E341D;
-  background: #0E341D;
 }
 </style>
