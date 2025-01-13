@@ -27,7 +27,7 @@
         <TooltipRoot>
           <TooltipTrigger asChild>
             <div class="w-8 h-8 p-1.5 rounded-md border flex items-center justify-center"
-                 :class="node.status ? 'border-blue-400 text-blue-400' : 'border-gray-700 text-gray-400'">
+                 :class="node.status ? 'border-blue-400 text-blue-400' : 'border-red-500 text-red-500'">
               <ActivityPulse />
             </div>
           </TooltipTrigger>
@@ -46,14 +46,14 @@
       <div class="grid grid-cols-2 gap-4 mb-2">
         <div>
           <p class="text-gray-400 text-sm">Uptime</p>
-          <p class="text-white text-sm">{{ node.uptime.toFixed(2) }}%</p>
+          <p class="text-white text-sm">{{ node.status ? `${node.uptime.toFixed(2)}%` : 'N/A' }}</p>
         </div>
         <div>
           <p class="text-gray-400 text-sm">Rewards</p>
           <p class="text-white text-sm">{{ node.rewards }}</p>
         </div>
       </div>
-      <UptimeBar :uptimePercentage="node.uptime" :isActive="node.status" />
+      <UptimeBar :uptimePercentage="node.status ? node.uptime : 0" :isActive="node.status" />
     </div>
 
     <!-- Footer -->
