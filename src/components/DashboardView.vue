@@ -3,7 +3,6 @@
     <div class="py-6">
       <div class="flex items-center justify-between mb-6">
         <div class="flex items-center gap-4">
-          <SophonAvatar />
           <h1 class="text-2xl font-bold text-white">Sophon Nodes Dashboard</h1>
         </div>
         <div class="flex items-center gap-4">
@@ -77,13 +76,11 @@
 
 <script>
 import Card from './CardsList.vue';
-import SophonAvatar from './SophonAvatar.vue';
 
 export default {
   name: 'DashboardView',
   components: {
     Card,
-    SophonAvatar,
   },
   data() {
     return {

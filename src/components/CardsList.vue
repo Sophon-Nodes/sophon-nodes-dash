@@ -1,7 +1,7 @@
 <template>
   <div class="p-3 rounded-lg card-gradient border-[#505255] border-opacity-30 shadow-card">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center justify-between mb-4 gap-6">
       <div class="flex items-center gap-2 flex-1 min-w-0">
         <div class="w-9 h-9 p-1 rounded-md border border-gray-800 flex items-center justify-center">
           <SophonAvatar class="w-6 h-6 m-auto" />
