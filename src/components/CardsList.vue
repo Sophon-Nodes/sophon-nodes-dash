@@ -6,24 +6,33 @@
         <div class="w-9 h-9 p-1 rounded-md border border-gray-800 flex items-center justify-center">
           <SophonAvatar class="w-6 h-6 m-auto" />
         </div>
-        <div class="font-mono text-sm text-gray-400 truncate group relative">
-          {{ node.operator }}
-          <div class="hidden group-hover:block absolute z-10 px-3 py-2 text-sm bg-gray-900 text-white rounded-md shadow-lg whitespace-normal max-w-md top-full left-0 mt-1">
-            {{ node.operator }}
-          </div>
-        </div>
+        <TooltipRoot>
+          <TooltipTrigger asChild>
+            <div class="font-mono text-sm text-gray-400 truncate group relative">
+              {{ node.operator }}
+            </div>
+          </TooltipTrigger>
+          <TooltipPortal>
+            <TooltipContent 
+              class="px-3 py-2 text-sm bg-gray-900 text-white rounded-md shadow-lg max-w-md"
+              :side="'top'"
+              :sideOffset="5"
+            >
+              {{ node.operator }}
+            </TooltipContent>
+          </TooltipPortal>
+        </TooltipRoot>
       </div>
       <div class="flex items-center gap-2">
         <TooltipRoot>
           <TooltipTrigger asChild>
             <div class="w-8 h-8 p-1.5 rounded-md border flex items-center justify-center"
-                 :class="node.status ? 'border-green-400' : 'border-red-500'">
-              <ActivityPulse class="w-full h-full"
-                   :class="node.status ? 'text-green-400' : 'text-red-500'" />
+                 :class="node.status ? 'border-blue-400 text-blue-400' : 'border-gray-700 text-gray-400'">
+              <ActivityPulse />
             </div>
           </TooltipTrigger>
-          <TooltipContent class="bg-gray-900 px-3 py-2 rounded-lg shadow-lg border border-gray-800" side="top">
-            <span class="text-sm font-medium text-gray-200">{{ node.status ? 'Active' : 'Inactive' }}</span>
+          <TooltipContent class="px-3 py-2 text-sm bg-gray-900 text-white rounded-md shadow-lg">
+            {{ node.status ? 'Active' : 'Inactive' }}
           </TooltipContent>
         </TooltipRoot>
         <button class="w-8 h-8 p-1.5 rounded-md border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white">
@@ -70,7 +79,12 @@ import NodeDelegators from './icons/NodeDelegators.vue';
 import CoinsCommission from './icons/CoinsCommission.vue';
 import SophonAvatar from './SophonAvatar.vue';
 import ActivityPulse from './icons/ActivityPulse.vue';
-import { TooltipRoot, TooltipTrigger, TooltipContent } from 'radix-vue';
+import { 
+  TooltipRoot, 
+  TooltipTrigger, 
+  TooltipContent,
+  TooltipPortal 
+} from 'radix-vue';
 
 export default {
   components: {
@@ -82,7 +96,8 @@ export default {
     ActivityPulse,
     TooltipRoot,
     TooltipTrigger,
-    TooltipContent
+    TooltipContent,
+    TooltipPortal
   },
   props: {
     node: {
