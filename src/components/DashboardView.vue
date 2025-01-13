@@ -31,7 +31,7 @@
       
       <div v-else>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-          <div v-for="node in nodes" :key="node.operador">
+          <div v-for="node in nodes" :key="node.operator">
             <Card :node="node" />
           </div>
         </div>
@@ -114,7 +114,7 @@ export default {
         
         this.nodes = data.nodes.map(node => ({
           uptime: node.uptime,
-          operador: node.operator,
+          operator: node.operator,
           status: node.status,
           rewards: node.rewards,
           fee: node.fee

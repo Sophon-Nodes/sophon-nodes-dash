@@ -7,9 +7,9 @@
           <SophonAvatar class="w-6 h-6 m-auto" />
         </div>
         <div class="font-mono text-sm text-gray-400 truncate group relative">
-          {{ node.operador }}
+          {{ node.operator }}
           <div class="hidden group-hover:block absolute z-10 px-3 py-2 text-sm bg-gray-900 text-white rounded-md shadow-lg whitespace-normal max-w-md top-full left-0 mt-1">
-            {{ node.operador }}
+            {{ node.operator }}
           </div>
         </div>
       </div>
