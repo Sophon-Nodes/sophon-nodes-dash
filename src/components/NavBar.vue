@@ -1,7 +1,7 @@
 <template>
   <div id="navbar" class="z-30 fixed lg:sticky top-0 w-full">
     <div id="navbar-transition" class="absolute w-full h-full backdrop-blur flex-none transition-colors duration-500 border-b border-gray-500/5 dark:border-gray-300/[0.06] supports-backdrop-blur:bg-background-light/60 dark:bg-transparent"></div>
-    <div class="max-w-7xl mx-auto relative">
+    <div class="max-w-8xl mx-auto relative">
       <div class="">
         <div class="relative">
           <div class="flex items-center lg:px-12 h-16 min-w-0 mx-4 lg:mx-0">

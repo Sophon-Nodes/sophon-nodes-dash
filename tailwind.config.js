@@ -9,6 +9,7 @@ export default {
     extend: {
       maxWidth: {
         '8xl': '92rem',
+        'max-w-8xl': '92rem',
       },
       colors: {
         primary: 'rgb(var(--primary) / <alpha-value>)',

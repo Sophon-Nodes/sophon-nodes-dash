@@ -1,5 +1,5 @@
 <template>
-  <main class="max-w-7xl mx-auto px-4 lg:px-12">
+  <main class="max-w-8xl mx-auto px-4 lg:px-12">
     <div class="py-6">
       <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-white">Node Operator List</h1>
