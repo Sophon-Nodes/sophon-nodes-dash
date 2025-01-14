@@ -38,7 +38,7 @@
         <div class="flex items-center justify-end mt-6">
           <PaginationRoot
             v-model:page="currentPage"
-            :total="100"
+            :total="totalResults"
             :items-per-page="perPage"
             :sibling-count="1"
             show-edges
@@ -130,8 +130,9 @@ export default {
       loading: false,
       error: null,
       currentPage: 1,
-      perPage: 25,
+      perPage: 27,
       operatorFilter: '',
+      totalResults: 0,
       debounceTimeout: null,
     };
   },
@@ -139,11 +140,11 @@ export default {
     async fetchNodes() {
       try {
         this.loading = true;
-        let url = 'https://monitor.sophon.xyz/nodes';
+        let url = 'https://api.sophon-nodes.xyz/nodes';
         const params = new URLSearchParams();
         
         params.append('page', this.currentPage);
-        params.append('per_page', this.perPage);
+        params.append('limit', this.perPage);
         
         if (this.operatorFilter.trim()) {
           params.append('search', this.operatorFilter.trim());
@@ -152,13 +153,16 @@ export default {
         url = `${url}?${params.toString()}`;
         const response = await fetch(url);
         const data = await response.json();
+
+        this.totalResults = data.totals.totalNodes;
         
         this.nodes = data.nodes.map(node => ({
-          uptime: node.uptime,
-          operator: node.operator,
-          status: node.status,
-          rewards: node.rewards,
-          fee: node.fee
+          uptime: node.nodeUptime,
+          operator: node.operatorAddress,
+          status: node.nodeStatus,
+          rewards: node.nodeRewards,
+          fee: node.nodeFee,
+          delegators: node.nodesDelegated
         }));
       } catch (err) {
         this.error = 'Failed to fetch node data';

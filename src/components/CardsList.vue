@@ -60,7 +60,7 @@
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-1.5">
         <NodeDelegators class="w-5 h-5 text-gray-400" />
-        <span class="text-gray-400 text-sm">#</span>
+        <span class="text-gray-400 text-sm">{{ node.delegators }}</span>
         <span class="text-gray-400 text-sm">Delegators</span>
       </div>
       <div class="flex items-center gap-1.5">
