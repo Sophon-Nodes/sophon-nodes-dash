@@ -59,7 +59,7 @@ export default {
     async fetchNodes() {
       try {
         this.loading = true;
-        let url = 'http://localhost:3001/nodes';
+        let url = 'https://api.sophon-nodes.xyz/nodes';
         const params = new URLSearchParams();
         
         params.append('page', this.currentPage);
