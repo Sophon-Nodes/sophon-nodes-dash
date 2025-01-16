@@ -1,3 +1,133 @@
+<script>
+import Card from './CardsList.vue';
+import CardSkeleton from './CardSkeleton.vue';
+import SearchIcon from './icons/SearchIcon.vue';
+import ChevronLeft from './icons/ChevronLeft.vue';
+import ChevronRight from './icons/ChevronRight.vue';
+import DoubleChevronLeft from './icons/DoubleChevronLeft.vue';
+import DoubleChevronRight from './icons/DoubleChevronRight.vue';
+import SelectComponent from './SelectComponent.vue';
+import {
+  PaginationRoot,
+  PaginationList,
+  PaginationListItem,
+  PaginationPrev,
+  PaginationNext,
+  PaginationFirst,
+  PaginationLast,
+  PaginationEllipsis,
+} from 'radix-vue';
+
+export default {
+  name: 'DashboardView',
+  components: {
+    Card,
+    CardSkeleton,
+    SearchIcon,
+    ChevronLeft,
+    ChevronRight,
+    DoubleChevronLeft,
+    DoubleChevronRight,
+    PaginationRoot,
+    PaginationList,
+    PaginationListItem,
+    PaginationPrev,
+    PaginationNext,
+    PaginationFirst,
+    PaginationLast,
+    PaginationEllipsis,   
+    SelectComponent,
+  },
+  data() {
+    return {
+      nodes: [],
+      loading: false,
+      error: null,
+      currentPage: 1,
+      perPage: 27,
+      operatorFilter: '',
+      othersFilters: {
+        nodeStatus: "all", //all, Online = true or Offline = false
+        sortBy: "nodeUptime", //Possible options is nodeUptime, nodesDelegated, nodeFee, nodeRewards
+        sortOrder: "desc" // desc or asc
+      },
+      totalResults: 0,
+      debounceTimeout: null,
+    };
+  },
+  methods: {
+    async fetchNodes() {
+      try {
+        this.loading = true;
+        let url = 'http://localhost:3001/nodes';
+        const params = new URLSearchParams();
+        
+        params.append('page', this.currentPage);
+        params.append('limit', this.perPage);
+        params.append('othersFilters', JSON.stringify(this.othersFilters));        
+        params.append('search', this.operatorFilter.trim());        
+        
+        url = `${url}?${params.toString()}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        this.totalResults = data.navInfo.totalElements;
+        
+        this.nodes = data.nodes.map(node => ({
+          uptime: node.nodeUptime,
+          operator: node.operatorAddress,
+          status: node.nodeStatus,
+          rewards: node.nodeRewards,
+          fee: node.nodeFee,
+          delegators: node.nodesDelegated
+        }));
+      } catch (err) {
+        this.error = 'Failed to fetch node data';
+        console.error('Error fetching nodes:', err);
+      } finally {
+        this.loading = false;
+      }
+    },
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.fetchNodes();
+      }
+    },
+    nextPage() {
+      this.currentPage++;
+      this.fetchNodes();
+    },
+    updateOthersFilter(value){
+      this.othersFilters[value[0]] = value[1];
+      this.currentPage = 1;
+      this.fetchNodes();
+    },
+    updateLimitPerPage(value){
+      this.currentPage = 1;
+      this.perPage = value[1];
+    }
+  },
+  watch: {
+    operatorFilter() {
+      if (this.debounceTimeout) clearTimeout(this.debounceTimeout);
+      this.debounceTimeout = setTimeout(() => {
+        this.currentPage = 1;
+        this.fetchNodes();
+      }, 300);
+    },
+    perPage() {
+      this.currentPage = 1;
+      this.fetchNodes();
+    }
+  },
+  created() {
+    this.fetchNodes();
+    alert("Parallax: I'll still work on fixing the uptime bar bug; Still fixing the layout, just testing...");
+  }
+}
+</script>
+
 <template>
   <main class="max-w-8xl mx-auto px-4 lg:px-12">
     <div class="py-6">
@@ -6,7 +136,7 @@
       </div>
 
       <div class="flex items-center gap-4 mb-6">
-        <div class="relative flex-1 max-w-md">
+        <div class="relative flex-1 max-w-mb">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="h-5 w-5 text-gray-400" />
           </div>
@@ -16,6 +146,50 @@
             placeholder="Search operators..."
             class="block w-full pl-10 pr-4 py-2 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card"
           />
+        </div>        
+        <div class="relative flex">
+          <SelectComponent @updateLimitPerPage="updateLimitPerPage" :itens="{
+            obj:[
+              {text: '27 per page', value: 27},
+              {text: '54 per page', value: 54},
+              {text: '108 per page', value: 108}
+            ],
+            filterType: 'limitPerPage',
+            function: 'updateLimitPerPage'
+          }" />
+        </div>
+        <div class="relative flex">
+          <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
+            obj:[
+              {text: 'All Status', value: 'all'},
+              {text: 'Online Status', value: 'true'},
+              {text: 'Offline Status', value: 'false'}
+            ],
+            filterType: 'nodeStatus',
+            function: 'updateOthersFilter'
+          }" />
+        </div>
+        <div class="relative flex">
+          <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
+            obj:[
+              {text: 'Uptime', value: 'nodeUptime'},
+              {text: 'Delegations', value: 'nodesDelegated'},
+              {text: 'Fee', value: 'nodeFee'},
+              {text: 'Rewards', value: 'nodeRewards'}
+            ],
+            filterType: 'sortBy',
+            function: 'updateOthersFilter'
+          }" />
+        </div>
+        <div class="relative flex">
+          <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
+            obj:[
+              {text: 'Desc', value: 'desc'},
+              {text: 'Asc', value: 'asc'}
+            ],
+            filterType: 'sortOrder',
+            function: 'updateOthersFilter'
+          }" />
         </div>
       </div>
       
@@ -85,121 +259,6 @@
     </div>
   </main>
 </template>
-
-<script>
-import Card from './CardsList.vue';
-import CardSkeleton from './CardSkeleton.vue';
-import SearchIcon from './icons/SearchIcon.vue';
-import ChevronLeft from './icons/ChevronLeft.vue';
-import ChevronRight from './icons/ChevronRight.vue';
-import DoubleChevronLeft from './icons/DoubleChevronLeft.vue';
-import DoubleChevronRight from './icons/DoubleChevronRight.vue';
-import {
-  PaginationRoot,
-  PaginationList,
-  PaginationListItem,
-  PaginationPrev,
-  PaginationNext,
-  PaginationFirst,
-  PaginationLast,
-  PaginationEllipsis,
-} from 'radix-vue';
-
-export default {
-  name: 'DashboardView',
-  components: {
-    Card,
-    CardSkeleton,
-    SearchIcon,
-    ChevronLeft,
-    ChevronRight,
-    DoubleChevronLeft,
-    DoubleChevronRight,
-    PaginationRoot,
-    PaginationList,
-    PaginationListItem,
-    PaginationPrev,
-    PaginationNext,
-    PaginationFirst,
-    PaginationLast,
-    PaginationEllipsis,
-  },
-  data() {
-    return {
-      nodes: [],
-      loading: false,
-      error: null,
-      currentPage: 1,
-      perPage: 27,
-      operatorFilter: '',
-      totalResults: 0,
-      debounceTimeout: null,
-    };
-  },
-  methods: {
-    async fetchNodes() {
-      try {
-        this.loading = true;
-        let url = 'https://api.sophon-nodes.xyz/nodes';
-        const params = new URLSearchParams();
-        
-        params.append('page', this.currentPage);
-        params.append('limit', this.perPage);
-        
-        if (this.operatorFilter.trim()) {
-          params.append('search', this.operatorFilter.trim());
-        }
-        
-        url = `${url}?${params.toString()}`;
-        const response = await fetch(url);
-        const data = await response.json();
-
-        this.totalResults = data.totals.totalNodes;
-        
-        this.nodes = data.nodes.map(node => ({
-          uptime: node.nodeUptime,
-          operator: node.operatorAddress,
-          status: node.nodeStatus,
-          rewards: node.nodeRewards,
-          fee: node.nodeFee,
-          delegators: node.nodesDelegated
-        }));
-      } catch (err) {
-        this.error = 'Failed to fetch node data';
-        console.error('Error fetching nodes:', err);
-      } finally {
-        this.loading = false;
-      }
-    },
-    previousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-        this.fetchNodes();
-      }
-    },
-    nextPage() {
-      this.currentPage++;
-      this.fetchNodes();
-    }
-  },
-  watch: {
-    operatorFilter() {
-      if (this.debounceTimeout) clearTimeout(this.debounceTimeout);
-      this.debounceTimeout = setTimeout(() => {
-        this.currentPage = 1;
-        this.fetchNodes();
-      }, 300);
-    },
-    perPage() {
-      this.currentPage = 1;
-      this.fetchNodes();
-    }
-  },
-  created() {
-    this.fetchNodes();
-  }
-}
-</script>
 
 <style>
 .shadow-card {
