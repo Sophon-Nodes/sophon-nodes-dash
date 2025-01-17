@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 rounded-lg card-gradient border-[#505255] border-opacity-30 shadow-card animate-pulse">
+  <div v-if="selSkeleton == 'cardOperators'" class="p-3 rounded-lg card-gradient border-[#505255] border-opacity-30 shadow-card animate-pulse">
     <!-- Header -->
     <div class="flex items-center justify-between mb-4 gap-6">
       <div class="flex items-center gap-2 flex-1 min-w-0">
@@ -23,11 +23,23 @@
       <div class="h-2 bg-gray-800 rounded"></div>
     </div>
   </div>
+  
+  <div v-else class="flex-1 p-4 h-[88px] justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card animate-pulse">
+    <div class="w-auto h-5 rounded-md border border-gray-800 bg-gray-800 mb-2"></div>
+    <div class="w-20 h-7 rounded-md border border-gray-800 bg-gray-800"></div>
+  </div>      
+  
 </template>
 
 <script>
 export default {
-  name: 'CardSkeleton'
+  name: 'CardSkeleton',
+  props: {
+    selSkeleton: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>
 

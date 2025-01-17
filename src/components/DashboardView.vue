@@ -38,23 +38,29 @@ export default {
     PaginationLast,
     PaginationEllipsis,   
     SelectComponent,
-    Icon
+    Icon,
   },
   data() {
     return {
       nodes: [],
+      totalNodes: 0,
+      activeNodes: 0,
+      averageUptime: "0.00%",
+      averageFee: "0.00%",
       loading: false,
+      startUpLoading: true,
       error: null,
       currentPage: 1,
       perPage: 27,
       operatorFilter: '',
       othersFilters: {
-        nodeStatus: "all", //all, Online = true or Offline = false
+        nodeStatus: "true", //all, Online = true or Offline = false
         sortBy: "nodeUptime", //Possible options is nodeUptime, nodesDelegated, nodeFee, nodeRewards
         sortOrder: "desc" // desc or asc
       },
       totalResults: 0,
       debounceTimeout: null,
+      filtersToggle: false,
     };
   },
   methods: {
@@ -74,6 +80,11 @@ export default {
         const data = await response.json();
 
         this.totalResults = data.navInfo.totalElements;
+
+        this.totalNodes = data.totals.totalNodes;
+        this.activeNodes = data.totals.activeNodes;
+        this.averageUptime = data.totals.averageUptime.toFixed(2) + "%";
+        this.averageFee = data.totals.averageFee.toFixed(2) + "%";
         
         this.nodes = data.nodes.map(node => ({
           uptime: node.nodeUptime,
@@ -83,6 +94,7 @@ export default {
           fee: node.nodeFee,
           delegators: node.nodesDelegated
         }));
+        this.startUpLoading = false;
       } catch (err) {
         this.error = 'Failed to fetch node data';
         console.error('Error fetching nodes:', err);
@@ -132,12 +144,34 @@ export default {
 
 <template>
   <main class="max-w-8xl mx-auto px-4 lg:px-12">
+    <div v-if="startUpLoading" class="grid grid-cols-1 md:grid-cols-4 mt-6 gap-4">
+      <CardSkeleton v-for="n in 4" :key="n" />
+    </div>
+    <div v-else class="grid grid-cols-1 md:grid-cols-4 mt-6 gap-4">
+      <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
+        <div class="text-slate-400 text-base font-normal">Total Nodes</div>
+        <div class="text-white text-2xl font-bold">{{ totalNodes }}</div>
+      </div>
+      <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
+        <div class="text-slate-400 text-base font-normal">Active Nodes</div>
+        <div class="text-white text-2xl font-bold">{{ activeNodes }}</div>
+      </div>
+      <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
+        <div class="text-slate-400 text-base font-normal">Average Uptime</div>
+        <div class="text-white text-2xl font-bold">{{ averageUptime }}</div>
+      </div>
+      <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
+        <div class="text-slate-400 text-base font-normal">Average Fee</div>
+        <div class="text-white text-2xl font-bold">{{ averageFee }}</div>
+      </div>
+    </div>
+
     <div class="py-6">
       <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-white">Node Operator List</h1>
       </div>
 
-      <div class="flex items-center gap-4 mb-6">
+      <div class="flex items-center gap-4 mb-5">
         <div class="relative flex-1 max-w-mb">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <SearchIcon class="h-5 w-5 text-gray-400" />
@@ -156,60 +190,57 @@ export default {
           <button class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
             <Icon icon="nimbus:list" width="16" height="16" />
           </button>
-          <button class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
+          <button @click="filtersToggle = !filtersToggle" class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
             <Icon icon="ion:filter" width="16" height="16" />
           </button>
         </div>      
-      </div>
-      <div class="flex items-center gap-4 mb-6">
-        <div class="relative flex">
-          <SelectComponent @updateLimitPerPage="updateLimitPerPage" :itens="{
-            obj:[
-              {text: '27 per page', value: 27},
-              {text: '54 per page', value: 54},
-              {text: '108 per page', value: 108}
-            ],
-            filterType: 'limitPerPage',
-            function: 'updateLimitPerPage'
-          }" />
+      </div>      
+        <div v-if="filtersToggle" class="flex-col items-center p-3 mb-6 rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card">          
+          <div class="flex gap-4">            
+            <div class="flex-col">
+              <div>Status</div>
+              <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
+                obj:[
+                  {text: 'All', value: 'all'},
+                  {text: 'Online', value: 'true'},
+                  {text: 'Offline', value: 'false'}
+                ],
+                filterType: 'nodeStatus',
+                function: 'updateOthersFilter',
+                defaultVal: 'true'
+              }" />
+            </div>
+            <div class="flex-col">
+              <div>Sort by</div>
+              <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
+                obj:[
+                  {text: 'Uptime', value: 'nodeUptime'},
+                  {text: 'Delegations', value: 'nodesDelegated'},
+                  {text: 'Fee', value: 'nodeFee'},
+                  {text: 'Rewards', value: 'nodeRewards'}
+                ],
+                filterType: 'sortBy',
+                function: 'updateOthersFilter',
+                defaultVal: 'nodeUptime'
+              }" />
+            </div>
+            <div class="flex-col">
+              <div>Order by</div>
+              <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
+                obj:[
+                  {text: 'Desc', value: 'desc'},
+                  {text: 'Asc', value: 'asc'}
+                ],
+                filterType: 'sortOrder',
+                function: 'updateOthersFilter',
+                defaultVal: 'desc'
+              }" />
+            </div>
+          </div>
         </div>
-        <div class="relative flex">
-          <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
-            obj:[
-              {text: 'All Status', value: 'all'},
-              {text: 'Online Status', value: 'true'},
-              {text: 'Offline Status', value: 'false'}
-            ],
-            filterType: 'nodeStatus',
-            function: 'updateOthersFilter'
-          }" />
-        </div>
-        <div class="relative flex">
-          <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
-            obj:[
-              {text: 'Uptime', value: 'nodeUptime'},
-              {text: 'Delegations', value: 'nodesDelegated'},
-              {text: 'Fee', value: 'nodeFee'},
-              {text: 'Rewards', value: 'nodeRewards'}
-            ],
-            filterType: 'sortBy',
-            function: 'updateOthersFilter'
-          }" />
-        </div>
-        <div class="relative flex">
-          <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
-            obj:[
-              {text: 'Desc', value: 'desc'},
-              {text: 'Asc', value: 'asc'}
-            ],
-            filterType: 'sortOrder',
-            function: 'updateOthersFilter'
-          }" />
-        </div>
-      </div>
       
       <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-        <CardSkeleton v-for="n in 6" :key="n" />
+        <CardSkeleton selSkeleton="cardOperators" v-for="n in 6" :key="n" />
       </div>
       
       <div v-else-if="error" class="text-red-400">
@@ -222,15 +253,27 @@ export default {
             <Card :node="node" />
           </div>
         </div>
-
-        <!-- Pagination -->
-        <div class="flex items-center justify-end mt-6">
+      </div>
+      <!-- Pagination -->
+        <div class="flex items-center justify-end mt-6 gap-3">
+          <div class="relative flex">
+            <SelectComponent @updateLimitPerPage="updateLimitPerPage" :itens="{
+              obj:[
+                {text: '27 per page', value: 27},
+                {text: '54 per page', value: 54},
+                {text: '108 per page', value: 108}
+              ],
+              filterType: 'limitPerPage',
+              function: 'updateLimitPerPage',
+              defaultVal: 27
+            }" />
+          </div>
           <PaginationRoot
             v-model:page="currentPage"
             :total="totalResults"
             :items-per-page="perPage"
-            :sibling-count="1"
-            show-edges
+            :sibling-count="0"
+            :show-edges="false"            
             class="flex items-center gap-1"
             @update:page="fetchNodes"
           >
@@ -270,13 +313,16 @@ export default {
             </PaginationList>
           </PaginationRoot>
         </div>
-      </div>
     </div>
   </main>
 </template>
 
 <style>
+.card-background {
+  background: var(--Slate-950, #020617);
+}
+
 .shadow-card {
-  box-shadow: 0px 0px 0px 1px rgba(80, 82, 85, 0.30), 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 0px 0px 1px rgba(80, 82, 85, 0.30), 0px 1px 2px 0px rgba(0, 0, 0, 0.05), 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px -1px rgba(0, 0, 0, 0.10);
 }
 </style>
