@@ -7,6 +7,7 @@ import ChevronRight from './icons/ChevronRight.vue';
 import DoubleChevronLeft from './icons/DoubleChevronLeft.vue';
 import DoubleChevronRight from './icons/DoubleChevronRight.vue';
 import SelectComponent from './SelectComponent.vue';
+import { Icon } from '@iconify/vue'
 import {
   PaginationRoot,
   PaginationList,
@@ -37,6 +38,7 @@ export default {
     PaginationLast,
     PaginationEllipsis,   
     SelectComponent,
+    Icon
   },
   data() {
     return {
@@ -123,7 +125,7 @@ export default {
   },
   created() {
     this.fetchNodes();
-    alert("Parallax: I'll still work on fixing the uptime bar bug; Still fixing the layout, just testing...");
+    //alert("Parallax: I'll still work on fixing the uptime bar bug; Still fixing the layout, just testing...");
   }
 }
 </script>
@@ -146,7 +148,20 @@ export default {
             placeholder="Search operators..."
             class="block w-full pl-10 pr-4 py-2 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card"
           />
-        </div>        
+        </div>
+        <div class="relative flex p-1 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card">
+          <button class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
+            <Icon icon="mingcute:grid-line" width="16" height="16" />
+          </button>
+          <button class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
+            <Icon icon="nimbus:list" width="16" height="16" />
+          </button>
+          <button class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
+            <Icon icon="ion:filter" width="16" height="16" />
+          </button>
+        </div>      
+      </div>
+      <div class="flex items-center gap-4 mb-6">
         <div class="relative flex">
           <SelectComponent @updateLimitPerPage="updateLimitPerPage" :itens="{
             obj:[
