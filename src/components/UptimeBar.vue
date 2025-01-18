@@ -1,7 +1,7 @@
 <template>     
     <div class="mt-2.5 grid grid-cols-10 gap-1 self-stretch">
       <div v-for="(group, index) in progressGroups" :key="index"
-           class="progress-bar flex p-[2px] items-center gap-[3px] self-stretch rounded-full"
+           class="progress-bar flex p-[3px] items-center gap-[3px] self-stretch rounded-full"
            :class="[getBarClass(index), index === 0 ? 'col-span-6' : 'col-span-2']">
         <div v-for="(segment, segIndex) in group.segments" :key="segIndex" 
              class="progress-segment h-2.5 flex-1 rounded-full" 
@@ -52,39 +52,65 @@ export default {
         // 90-100% = 10 segments
         return 10;
       }
+    },
+    progressColor() {
+      if (this.uptimePercentage >= 80) {
+        return 'green';
+      } else if (this.uptimePercentage >= 60) {
+        return 'blue';
+      } else {
+        return 'red';
+      }
     }
   },
   methods: {
     getBarClass(groupIndex) {
       if (!this.isActive) return 'bg-gray-900';
       
-      if (groupIndex === 0) {
-        return this.uptimePercentage < 60 ? 'bg-red-900' : 'bg-green-900';
-      } else if (groupIndex === 1) {
-        return this.uptimePercentage < 80 ? 'bg-red-900' : 'bg-green-900';
-      } else {
-        return this.uptimePercentage < 90 ? 'bg-red-900' : 'bg-green-900';
+      let segmentCount = 0;
+      for (let i = 0; i < groupIndex; i++) {
+        segmentCount += this.progressGroups[i].segments.length;
       }
+      let groupEnd = segmentCount + this.progressGroups[groupIndex].segments.length;
+      let groupStart = segmentCount;
+      
+      let allActiveSegments = this.activeSegments >= groupEnd;
+      let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
+      
+      if (allActiveSegments || hasActiveSegments) {
+        if (this.progressColor === 'red') return 'bg-red-900';
+        if (this.progressColor === 'blue') return 'bg-blue-900';
+        return 'bg-green-900';
+      }
+      return 'bg-gray-900';
     },
     getSegmentClass(groupIndex, segmentIndex) {
       if (!this.isActive) return 'bg-gray-700';
 
-      let totalPreviousSegments = 0;
+      let segmentCount = 0;
       for (let i = 0; i < groupIndex; i++) {
-        totalPreviousSegments += this.progressGroups[i].segments.length;
+        segmentCount += this.progressGroups[i].segments.length;
       }
-      const currentSegmentNumber = totalPreviousSegments + segmentIndex + 1;
-
-      if (currentSegmentNumber <= this.activeSegments) {
-        if (groupIndex === 0) {
-          return this.uptimePercentage < 60 ? 'bg-red-500' : 'bg-green-500';
-        } else if (groupIndex === 1) {
-          return this.uptimePercentage < 80 ? 'bg-red-500' : 'bg-green-500';
+      segmentCount += segmentIndex;
+      
+      let groupEnd = segmentCount - segmentIndex + this.progressGroups[groupIndex].segments.length;
+      let groupStart = segmentCount - segmentIndex;
+      
+      let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
+      
+      if (segmentCount < this.activeSegments) {
+        if (this.progressColor === 'red') return 'bg-red-500';
+        if (this.progressColor === 'blue') return 'bg-blue-500';
+        return 'bg-green-500';
+      } else {
+        if (!hasActiveSegments) {
+          return 'bg-gray-700';
         } else {
-          return this.uptimePercentage < 90 ? 'bg-red-500' : 'bg-green-500';
+          if (this.progressColor === 'red') return 'bg-red-950';
+          if (this.progressColor === 'blue') return 'bg-blue-950';
+          return 'bg-green-950';
         }
       }
-      return 'bg-gray-700';
     }
   }
 }
