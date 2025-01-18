@@ -1,5 +1,7 @@
 <script setup>
 import EllipsisIcon from './icons/EllipsisIcon.vue';
+import NodeDelegators from './icons/NodeDelegators.vue';
+import DetailsIcon from './icons/DetailsIcon.vue';
 import { Icon } from '@iconify/vue';
 import {
   DropdownMenuRoot,
@@ -15,10 +17,15 @@ const props = defineProps({
   node: {
     type: Object,
     required: true
+  },
+  isFavorite: {
+    type: Boolean,
+    required: false
   }
 });
 
 const isCopied = ref(false);
+const isFavorite = props.isFavorite ? ref(props.isFavorite) : ref(false);
 
 const copyToClipboard = async (event) => {
   event.preventDefault();
@@ -35,7 +42,23 @@ const copyToClipboard = async (event) => {
   return false;
 };
 
-const handleSelect = (option) => {
+const setFavorite = async (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  try {  
+    if(isFavorite.value){
+      isFavorite.value = false;
+    }else{
+      isFavorite.value = true;
+    }
+    handleSelect('setFavorite');    
+  } catch (err) {
+    console.error('Failed to Favorite:', err);
+  }
+  return false;
+};
+
+const handleSelect = async (option) => {
   emit('select', option);
 };
 </script>
@@ -67,16 +90,22 @@ const handleSelect = (option) => {
             {{ isCopied ? 'Address Copied!' : 'Copy Address' }}
           </span>
         </DropdownMenuItem>
-        <DropdownMenuItem @select="handleSelect('Option 2')" class="text-sm text-gray-300 hover:text-white px-2 py-1.5 rounded cursor-pointer hover:bg-gray-800 outline-none">
+        <DropdownMenuItem @mousedown.stop.prevent="setFavorite" class="text-sm text-gray-300 hover:text-white px-2 py-1.5 rounded cursor-pointer hover:bg-gray-800 outline-none">
           <span class="flex items-center gap-2 w-full">
-            <Icon icon="heroicons:question-mark-circle" class="w-5 h-5" />
-            Option 2
+            <Icon :icon="isFavorite ? 'mdi:heart' : 'mdi:heart-outline'" :class="isFavorite ? 'h-5 w-5 text-red-500' : 'h-5 w-5'" />
+            {{ isFavorite ? 'My Favorite' :  'Add Favorite' }}
           </span>
         </DropdownMenuItem>
-        <DropdownMenuItem @select="handleSelect('Option 3')" class="text-sm text-gray-300 hover:text-white px-2 py-1.5 rounded cursor-pointer hover:bg-gray-800 outline-none">
+        <DropdownMenuItem disabled @select="handleSelect('Option 3')" class="text-sm text-gray-300 hover:text-white px-2 py-1.5 rounded cursor-pointer hover:bg-gray-800 outline-none">
           <span class="flex items-center gap-2 w-full">
-            <Icon icon="heroicons:clock" class="w-5 h-5" />
-            Option 3
+            <NodeDelegators class="w-5 h-5" />
+            Delegate <Icon icon="hugeicons:coming-soon-01" class="w-5 h-5" />
+          </span>
+        </DropdownMenuItem>
+        <DropdownMenuItem disabled @select="handleSelect('Option 4')" class="text-sm text-gray-300 hover:text-white px-2 py-1.5 rounded cursor-pointer hover:bg-gray-800 outline-none">
+          <span class="flex items-center gap-2 w-full">
+            <DetailsIcon class="w-5 h-5" />
+            View Details <Icon icon="hugeicons:coming-soon-01" class="w-5 h-5" />
           </span>
         </DropdownMenuItem>
       </DropdownMenuContent>

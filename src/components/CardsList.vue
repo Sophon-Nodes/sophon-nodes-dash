@@ -35,7 +35,7 @@
             {{ node.status ? 'Active' : 'Inactive' }}
           </TooltipContent>
         </TooltipRoot>
-        <CardDropdownMenu :node="node" @select="handleMenuSelect" />
+        <CardDropdownMenu :node="node" :isFavorite="isFavorite(node.operator)" @select="handleMenuSelect" />
       </div>
     </div>
 
@@ -84,15 +84,41 @@ import {
   TooltipPortal,
 } from 'radix-vue';
 
-defineProps({
+const emit = defineEmits(['setFavorite']);
+
+const props = defineProps({
   node: {
     type: Object,
     required: true
   }
 });
 
+const removeFavorite = async (operator) => {
+  let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  favorites = favorites.filter(id => id !== operator);
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+const setFavorite = async () => {
+  let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  if (!favorites.includes(props.node.operator)) {
+    favorites.push(props.node.operator);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }else{
+    removeFavorite(props.node.operator);
+  }
+}
+
+const isFavorite = (operator) => {
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    return favorites.includes(operator);
+}
+
 const handleMenuSelect = (option) => {
-  console.log('Selected:', option);
+  if(option == 'setFavorite'){
+    setFavorite();
+    emit('setFavorite');
+  }
 };
 </script>
 

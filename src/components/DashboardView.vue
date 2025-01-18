@@ -59,10 +59,11 @@ export default {
       operatorFilter: '',
       othersFilters: {
         nodeStatus: "true", //all, Online = true or Offline = false
-        sortBy: "nodeUptime", //Possible options is nodeUptime, nodesDelegated, nodeFee, nodeRewards
+        sortBy: "nodeUptime", //Possible options is nodeUptime, nodesDelegated, nodeFee, nodeRewards, Favorites
         sortOrder: "desc" // desc or asc
       },
       totalResults: 0,
+      favoritesNodes: [],
       debounceTimeout: null,
       filtersToggle: false,
       viewMode: 'grid',
@@ -77,7 +78,8 @@ export default {
         
         params.append('page', this.currentPage);
         params.append('limit', this.perPage);
-        params.append('othersFilters', JSON.stringify(this.othersFilters));        
+        params.append('othersFilters', JSON.stringify(this.othersFilters)); 
+        params.append('favoriteFilter', JSON.stringify(this.favoritesNodes));       
         params.append('search', this.operatorFilter.trim());        
         
         url = `${url}?${params.toString()}`;
@@ -126,6 +128,9 @@ export default {
       this.currentPage = 1;
       this.perPage = value[1];
     },
+    updateFavorites(){
+      this.favoritesNodes = JSON.parse(localStorage.getItem('favorites'));
+    },
     handleViewModeChange(newValue) {
       // Only update if a value is provided and it's different from current
       if (newValue && newValue !== this.viewMode) {
@@ -147,8 +152,8 @@ export default {
     }
   },
   created() {
+    this.favoriteNodes = JSON.parse(localStorage.getItem('favorites'));
     this.fetchNodes();
-    //alert("Parallax: I'll still work on fixing the uptime bar bug; Still fixing the layout, just testing...");
   }
 }
 </script>
@@ -255,7 +260,8 @@ export default {
                   {text: 'Uptime', value: 'nodeUptime'},
                   {text: 'Delegations', value: 'nodesDelegated'},
                   {text: 'Fee', value: 'nodeFee'},
-                  {text: 'Rewards', value: 'nodeRewards'}
+                  {text: 'Rewards', value: 'nodeRewards'},
+                  {text: 'Favorites', value: 'favoritesNodes'}
                 ],
                 filterType: 'sortBy',
                 function: 'updateOthersFilter',
@@ -296,7 +302,7 @@ export default {
           }"
         >
           <div v-for="node in nodes" :key="node.operator" class="transition-all duration-300 ease-in-out">
-            <Card :node="node" :view-mode="viewMode" />
+            <Card :node="node" :view-mode="viewMode" @setFavorite="updateFavorites" />
           </div>
         </TransitionGroup>
       </div>

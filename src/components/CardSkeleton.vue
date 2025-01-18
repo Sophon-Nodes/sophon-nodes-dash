@@ -37,7 +37,7 @@ export default {
   props: {
     selSkeleton: {
       type: String,
-      required: true
+      required: false
     }
   }
 }

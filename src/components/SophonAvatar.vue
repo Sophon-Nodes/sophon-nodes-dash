@@ -7,10 +7,22 @@ const avatars = [
   { 
     src: new URL('../assets/images/placeholder/sophon-avatar-1.png', import.meta.url).href,
     alt: 'Sophon Avatar',
+  },
+  { 
+    src: new URL('../assets/images/placeholder/sophon-avatar-2.png', import.meta.url).href,
+    alt: 'Sophon Avatar',
+  },
+  { 
+    src: new URL('../assets/images/placeholder/sophon-avatar-3.png', import.meta.url).href,
+    alt: 'Sophon Avatar',
+  },
+  { 
+    src: new URL('../assets/images/placeholder/sophon-avatar-4.png', import.meta.url).href,
+    alt: 'Sophon Avatar',
   }
 ]
 
-const currentAvatar = ref(avatars[0])
+const currentAvatar = ref(avatars[Math.floor(Math.random() * 4)])
 const hasError = ref(false)
 
 const handleImageError = () => {
