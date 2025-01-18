@@ -143,7 +143,10 @@ export default {
 </script>
 
 <template>
-  <main class="max-w-8xl mx-auto px-4 lg:px-12">
+  <main class="max-w-8xl mx-auto px-4 lg:px-12 pt-8">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-white">Metrics</h1>
+      </div>
     <div v-if="startUpLoading" class="grid grid-cols-1 md:grid-cols-4 mt-6 gap-4">
       <CardSkeleton v-for="n in 4" :key="n" />
     </div>
@@ -168,7 +171,7 @@ export default {
 
     <div class="py-6">
       <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-white">Node Operator List</h1>
+        <h1 class="text-2xl font-bold text-white">Node Operators</h1>
       </div>
 
       <div class="flex items-center gap-4 mb-5">
