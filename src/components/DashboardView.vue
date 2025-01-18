@@ -236,7 +236,7 @@ export default {
         <div v-if="filtersToggle" class="flex-col items-center p-3 mb-6 rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card">          
           <div class="flex gap-4">            
             <div class="flex-col">
-              <div>Status</div>
+              <div class="mb-1">Status</div>
               <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
                 obj:[
                   {text: 'All', value: 'all'},
@@ -249,7 +249,7 @@ export default {
               }" />
             </div>
             <div class="flex-col">
-              <div>Sort by</div>
+              <div class="mb-1">Sort by</div>
               <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
                 obj:[
                   {text: 'Uptime', value: 'nodeUptime'},
@@ -263,7 +263,7 @@ export default {
               }" />
             </div>
             <div class="flex-col">
-              <div>Order by</div>
+              <div class="mb-1">Order by</div>
               <SelectComponent @updateOthersFilter="updateOthersFilter" :itens="{
                 obj:[
                   {text: 'Desc', value: 'desc'},

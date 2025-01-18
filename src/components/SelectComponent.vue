@@ -40,7 +40,7 @@ watch(filter, async () => {
 
     <SelectPortal>
       <SelectContent 
-        class="overflow-hidden rounded-lg border border-[#505255] border-opacity-30 bg-[#0A0C10] shadow-lg"
+        class="overflow-hidden rounded-lg border border-[#2E2E2E] bg-white/[0.03] shadow-[0px_8px_30px_0px_rgba(0,0,0,0.12)] backdrop-blur-[25px]"
         position="popper"
         :side-offset="5"
       >
