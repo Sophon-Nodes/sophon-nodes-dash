@@ -152,7 +152,7 @@ export default {
     }
   },
   created() {
-    this.favoritesNodes = JSON.parse(localStorage.getItem('favorites'));
+    this.favoritesNodes = JSON.parse(localStorage.getItem('favorites') || '[]');
     this.fetchNodes();
   }
 }
