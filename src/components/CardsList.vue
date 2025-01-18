@@ -35,9 +35,7 @@
             {{ node.status ? 'Active' : 'Inactive' }}
           </TooltipContent>
         </TooltipRoot>
-        <button class="w-8 h-8 p-1.5 rounded-md border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white">
-          <EllipsisIcon />
-        </button>
+        <CardDropdownMenu :node="node" @select="handleMenuSelect" />
       </div>
     </div>
 
@@ -72,46 +70,34 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import UptimeBar from './UptimeBar.vue';
-import EllipsisIcon from './icons/EllipsisIcon.vue';
 import NodeDelegators from './icons/NodeDelegators.vue';
 import CoinsCommission from './icons/CoinsCommission.vue';
 import SophonAvatar from './SophonAvatar.vue';
 import ActivityPulse from './icons/ActivityPulse.vue';
-import { 
-  TooltipRoot, 
-  TooltipTrigger, 
+import CardDropdownMenu from './CardDropdownMenu.vue';
+import {
+  TooltipRoot,
+  TooltipTrigger,
   TooltipContent,
-  TooltipPortal 
+  TooltipPortal,
 } from 'radix-vue';
 
-export default {
-  components: {
-    UptimeBar,
-    EllipsisIcon,
-    NodeDelegators,
-    CoinsCommission,
-    SophonAvatar,
-    ActivityPulse,
-    TooltipRoot,
-    TooltipTrigger,
-    TooltipContent,
-    TooltipPortal
-  },
-  props: {
-    node: {
-      type: Object,
-      required: true
-    }
+defineProps({
+  node: {
+    type: Object,
+    required: true
   }
-}
+});
+
+const handleMenuSelect = (option) => {
+  console.log('Selected:', option);
+};
 </script>
 
 <style scoped>
 .card-gradient {
-  /* background: radial-gradient(77.96% 65.3% at 47.31% 100.18%, rgba(43, 149, 255, 0.06) 39.4%, rgba(0, 0, 0, 0.00) 100%), #0A0A0A; */
-  /* background: radial-gradient(77.96% 65.3% at 47.31% 100.18%, rgba(43, 149, 255, 0.06) 39.4%, rgba(0, 0, 0, 0.00) 100%), theme('colors.slate.950'); */
   background: radial-gradient(77.96% 65.3% at 47.31% 100.18%, rgba(43, 149, 255, 0.06) 39.4%, rgba(0, 0, 0, 0.00) 100%), #01040e;
 }
 
