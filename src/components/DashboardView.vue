@@ -59,7 +59,7 @@ export default {
       operatorFilter: '',
       othersFilters: {
         nodeStatus: "true", //all, Online = true or Offline = false
-        sortBy: "nodeUptime", //Possible options is nodeUptime, nodesDelegated, nodeFee, nodeRewards, Favorites
+        sortBy: "nodeUptime", //Possible options is nodeUptime, nodesDelegated, nodeFee, nodeRewards, favoritesNodes
         sortOrder: "desc" // desc or asc
       },
       totalResults: 0,
@@ -73,7 +73,7 @@ export default {
     async fetchNodes() {
       try {
         this.loading = true;
-        let url = 'https://api.sophon-nodes.xyz/nodes';
+        let url = 'http://localhost:3001/nodes';
         const params = new URLSearchParams();
         
         params.append('page', this.currentPage);
@@ -152,7 +152,7 @@ export default {
     }
   },
   created() {
-    this.favoriteNodes = JSON.parse(localStorage.getItem('favorites'));
+    this.favoritesNodes = JSON.parse(localStorage.getItem('favorites'));
     this.fetchNodes();
   }
 }
