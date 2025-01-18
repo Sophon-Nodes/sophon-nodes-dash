@@ -8,7 +8,7 @@ import DoubleChevronLeft from './icons/DoubleChevronLeft.vue';
 import DoubleChevronRight from './icons/DoubleChevronRight.vue';
 import SelectComponent from './SelectComponent.vue';
 import { Icon } from '@iconify/vue'
-import {
+import { 
   PaginationRoot,
   PaginationList,
   PaginationListItem,
@@ -17,6 +17,8 @@ import {
   PaginationFirst,
   PaginationLast,
   PaginationEllipsis,
+  ToggleGroupItem, 
+  ToggleGroupRoot 
 } from 'radix-vue';
 
 export default {
@@ -39,6 +41,8 @@ export default {
     PaginationEllipsis,   
     SelectComponent,
     Icon,
+    ToggleGroupItem,
+    ToggleGroupRoot
   },
   data() {
     return {
@@ -61,6 +65,7 @@ export default {
       totalResults: 0,
       debounceTimeout: null,
       filtersToggle: false,
+      viewMode: 'grid',
     };
   },
   methods: {
@@ -120,7 +125,13 @@ export default {
     updateLimitPerPage(value){
       this.currentPage = 1;
       this.perPage = value[1];
-    }
+    },
+    handleViewModeChange(newValue) {
+      // Only update if a value is provided and it's different from current
+      if (newValue && newValue !== this.viewMode) {
+        this.viewMode = newValue;
+      }
+    },
   },
   watch: {
     operatorFilter() {
@@ -143,7 +154,7 @@ export default {
 </script>
 
 <template>
-  <main class="max-w-8xl mx-auto px-4 lg:px-12 pt-8">
+  <main class="max-w-8xl mx-auto px-4 lg:px-12 lg:pt-8 pt-24">
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-white">Metrics</h1>
       </div>
@@ -186,16 +197,40 @@ export default {
             class="block w-full pl-10 pr-4 py-2 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card"
           />
         </div>
-        <div class="relative flex p-1 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card">
-          <button class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
-            <Icon icon="mingcute:grid-line" width="16" height="16" />
-          </button>
-          <button class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
-            <Icon icon="nimbus:list" width="16" height="16" />
-          </button>
-          <button @click="filtersToggle = !filtersToggle" class="py-2 px-3 rounded-[5px] hover:bg-slate-800/50">
-            <Icon icon="ion:filter" width="16" height="16" />
-          </button>
+        <div class="flex items-center gap-2">
+          <div class="relative flex p-1 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card">
+            <ToggleGroupRoot
+              :model-value="viewMode"
+              @update:model-value="handleViewModeChange"
+              type="single"
+              defaultValue="grid"
+              class="flex"
+            >
+              <ToggleGroupItem
+                value="grid"
+                aria-label="Grid view"
+                class="p-2 rounded-[5px] hover:bg-slate-800/50 data-[state=on]:bg-slate-800"
+              >
+                <Icon icon="mingcute:grid-line" width="16" height="16" />
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                value="list"
+                aria-label="List view"
+                class="p-2 rounded-[5px] hover:bg-slate-800/50 data-[state=on]:bg-slate-800"
+              >
+                <Icon icon="nimbus:list" width="16" height="16" />
+              </ToggleGroupItem>
+            </ToggleGroupRoot>
+          </div>
+          <div class="relative flex p-1 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card">
+            <button 
+              @click="filtersToggle = !filtersToggle" 
+              class="p-2 rounded-[5px] hover:bg-slate-800/50"
+              :class="{ 'bg-slate-800': filtersToggle }"
+            >
+              <Icon icon="ion:filter" width="16" height="16" />
+            </button>
+          </div>
         </div>      
       </div>      
         <div v-if="filtersToggle" class="flex-col items-center p-3 mb-6 rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card">          
@@ -251,11 +286,19 @@ export default {
       </div>
       
       <div v-else>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-          <div v-for="node in nodes" :key="node.operator">
-            <Card :node="node" />
+        <TransitionGroup
+          name="layout"
+          tag="div"
+          class="grid gap-3 mb-6"
+          :class="{
+            'grid-cols-1': viewMode === 'list',
+            'grid-cols-1 md:grid-cols-2 lg:grid-cols-3': viewMode === 'grid'
+          }"
+        >
+          <div v-for="node in nodes" :key="node.operator" class="transition-all duration-300 ease-in-out">
+            <Card :node="node" :view-mode="viewMode" />
           </div>
-        </div>
+        </TransitionGroup>
       </div>
       <!-- Pagination -->
         <div class="flex items-center justify-end mt-6 gap-3">
@@ -327,5 +370,20 @@ export default {
 
 .shadow-card {
   box-shadow: 0px 0px 0px 1px rgba(80, 82, 85, 0.30), 0px 1px 2px 0px rgba(0, 0, 0, 0.05), 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px -1px rgba(0, 0, 0, 0.10);
+}
+
+.layout-move {
+  transition: all 0.3s ease-in-out;
+}
+
+.layout-enter-active,
+.layout-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.layout-enter-from,
+.layout-leave-to {
+  opacity: 0;
+  transform: scale(0.98);
 }
 </style>
