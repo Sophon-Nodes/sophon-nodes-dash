@@ -302,9 +302,9 @@ export default {
         <div v-if="othersFilters.sortBy === 'favoritesNodes' && nodes.length === 0" class="flex flex-col items-center justify-center py-8">
           <img 
             src="https://mkdv.b-cdn.net/images/sophon-nodes/favorite-img.png" 
-            @error="$event.target.src = '../assets/images/graphics/favorite-img.png'" 
+            @error="$event.target.src = require('@/assets/images/graphics/favorite-img.png')" 
             alt="No favorites" 
-            class="w-[40rem] max-w-full h-auto mb-4" 
+            class="w-[44rem] max-w-full h-auto mb-4" 
           />
           <p class="text-slate-400 text-base lg:text-lg text-center">Select some favorites to show them here</p>
         </div>
