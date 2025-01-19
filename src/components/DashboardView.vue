@@ -93,7 +93,7 @@ export default {
         this.averageUptime = data.totals.averageUptime.toFixed(2) + "%";
         this.averageFee = data.totals.averageFee.toFixed(2) + "%";
         
-        this.nodes = data.nodes.map(node => ({
+        let nodes = data.nodes.map(node => ({
           uptime: node.nodeUptime,
           operator: node.operatorAddress,
           status: node.nodeStatus,
@@ -101,6 +101,13 @@ export default {
           fee: node.nodeFee,
           delegators: node.nodesDelegated
         }));
+
+        // Filter nodes to only show favorites when sorting by favorites
+        if (this.othersFilters.sortBy === 'favoritesNodes') {
+          nodes = nodes.filter(node => this.favoritesNodes.includes(node.operator));
+        }
+        
+        this.nodes = nodes;
         this.startUpLoading = false;
       } catch (err) {
         this.error = 'Failed to fetch node data';
@@ -292,6 +299,10 @@ export default {
       </div>
       
       <div v-else>
+        <div v-if="othersFilters.sortBy === 'favoritesNodes' && nodes.length === 0" class="flex flex-col items-center justify-center py-8">
+          <img src="@/assets/images/graphics/favorite-img.png" alt="No favorites" class="w-[40rem] max-w-full h-auto mb-4" />
+          <p class="text-slate-400 text-lg">Select some favorites to show them here</p>
+        </div>
         <TransitionGroup
           name="layout"
           tag="div"
