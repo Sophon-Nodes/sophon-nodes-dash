@@ -8,7 +8,7 @@
             <div class="h-full relative flex-1 flex items-center gap-x-4 min-w-0 border-b border-gray-500/5 dark:border-gray-300/[0.06]">
               <div class="flex-1 flex items-center gap-x-4">
                 <a href="/">
-                  <span class="sr-only">Sophon home page</span>
+                  <span class="sr-only">Sophon Nodes Dashboard home page</span>
                   <img class="w-auto h-7 relative object-contain" src="../assets/images/logos/sophon-nodes-logo.svg" alt="Sophon Nodes logo">
                 </a>
                 <div class="flex items-center gap-x-2"></div>
@@ -16,12 +16,15 @@
               <div class="flex-1 relative hidden lg:flex items-center ml-auto justify-end space-x-4">
                 <nav class="text-sm">
                   <ul class="flex space-x-6 items-center">
-                    <!-- Add navigation items here later or dark mode button -->
+                    <li v-for="item in navigationItems" :key="item.title">
+                      <a :href="item.url" class="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300">{{ item.title }}</a>
+                    </li>
+                    <!-- TODO: Add dark and light mode toggle somewhere here or outside the list -->
                   </ul>
                 </nav>
               </div>
               <!-- Mobile menu button -->
-              <div class="flex lg:hidden items-center gap-2">
+              <div v-if="hasNavigationItems" class="flex lg:hidden items-center gap-2">
                 <button type="button" class="text-gray-500 w-8 h-8 flex items-center justify-center hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300">
                   <span class="sr-only">Navigation</span>
                   <svg class="h-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -39,4 +42,24 @@
 
 <script setup>
 // Component logic will go here
+</script>
+
+<script>
+export default {
+  data() {
+    return {
+      navigationItems: [
+        // TODO: Add navigation items when ready. Example structure:
+        // { title: 'Home', url: '/' },
+        // { title: 'About', url: '/about' },
+        // { title: 'Contact', url: '/contact' },
+      ]
+    }
+  },
+  computed: {
+    hasNavigationItems() {
+      return this.navigationItems.length > 0
+    }
+  }
+}
 </script>

@@ -163,25 +163,25 @@ export default {
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-white">Metrics</h1>
       </div>
-    <div v-if="startUpLoading" class="grid grid-cols-1 md:grid-cols-4 mt-6 gap-4">
+    <div v-if="startUpLoading" class="grid grid-cols-2 md:grid-cols-4 mt-6 gap-2 md:gap-4">
       <CardSkeleton v-for="n in 4" :key="n" />
     </div>
-    <div v-else class="grid grid-cols-1 md:grid-cols-4 mt-6 gap-4">
+    <div v-else class="grid grid-cols-2 md:grid-cols-4 mt-6 gap-2 md:gap-4">
       <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
-        <div class="text-slate-400 text-base font-normal">Total Nodes</div>
-        <div class="text-white text-2xl font-bold">{{ totalNodes }}</div>
+        <div class="text-slate-400 text-sm md:text-base font-normal">Total Nodes</div>
+        <div class="text-white text-xl md:text-2xl font-bold">{{ totalNodes }}</div>
       </div>
       <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
-        <div class="text-slate-400 text-base font-normal">Active Nodes</div>
-        <div class="text-white text-2xl font-bold">{{ activeNodes }}</div>
+        <div class="text-slate-400 text-sm md:text-base font-normal">Active Nodes</div>
+        <div class="text-white text-xl md:text-2xl font-bold">{{ activeNodes }}</div>
       </div>
       <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
-        <div class="text-slate-400 text-base font-normal">Average Uptime</div>
-        <div class="text-white text-2xl font-bold">{{ averageUptime }}</div>
+        <div class="text-slate-400 text-sm md:text-base font-normal">Average Uptime</div>
+        <div class="text-white text-xl md:text-2xl font-bold">{{ averageUptime }}</div>
       </div>
       <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
-        <div class="text-slate-400 text-base font-normal">Average Fee</div>
-        <div class="text-white text-2xl font-bold">{{ averageFee }}</div>
+        <div class="text-slate-400 text-sm md:text-base font-normal">Average Fee</div>
+        <div class="text-white text-xl md:text-2xl font-bold">{{ averageFee }}</div>
       </div>
     </div>
 
