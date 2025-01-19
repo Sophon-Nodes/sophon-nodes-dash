@@ -371,7 +371,7 @@ export default {
 
 <style>
 .card-background {
-  background: var(--Slate-950, #020617);
+  background: theme('colors.zinc.950 / 48%');
 }
 
 .shadow-card {
