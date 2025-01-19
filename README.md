@@ -1,5 +1,7 @@
 # sophon-nodes-dash
 
+This is a dashboard for monitoring and interacting with Sophon Network nodes. View node status, rewards, and track network performance in real-time.
+
 ## Project setup
 ```
 npm install
