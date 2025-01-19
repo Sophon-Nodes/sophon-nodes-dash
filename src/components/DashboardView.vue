@@ -55,7 +55,7 @@ export default {
       startUpLoading: true,
       error: null,
       currentPage: 1,
-      perPage: 27,
+      perPage: 30,
       operatorFilter: '',
       othersFilters: {
         nodeStatus: "true", //all, Online = true or Offline = false
@@ -327,13 +327,13 @@ export default {
           <div class="relative flex">
             <SelectComponent @updateLimitPerPage="updateLimitPerPage" :itens="{
               obj:[
-                {text: '27 per page', value: 27},
-                {text: '54 per page', value: 54},
-                {text: '108 per page', value: 108}
+                {text: '30 per page', value: 30},
+                {text: '60 per page', value: 60},
+                {text: '90 per page', value: 90}
               ],
               filterType: 'limitPerPage',
               function: 'updateLimitPerPage',
-              defaultVal: 27
+              defaultVal: 30
             }" />
           </div>
           <PaginationRoot
