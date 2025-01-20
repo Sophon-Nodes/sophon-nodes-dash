@@ -28,7 +28,7 @@ watch(filter, async () => {
 <template>
   <SelectRoot v-model="filter" :defaultValue="props.itens.defaultVal">
     <SelectTrigger 
-      class="inline-flex items-center justify-between rounded-lg border border-[#505255] border-opacity-30 bg-[#0A0C10] px-3 py-2 text-sm text-gray-400 shadow-card hover:bg-gray-900 gap-2"
+      class="inline-flex items-center justify-between rounded-lg border border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 bg-white/50 dark:bg-[#0A0C10] px-3 py-2 text-sm text-gray-600 dark:text-gray-400 shadow-card hover:bg-gray-100 dark:hover:bg-gray-900 gap-2"
       aria-label="Customise options"
     >
       <SelectValue placeholder="Select a option..." />
@@ -40,26 +40,26 @@ watch(filter, async () => {
 
     <SelectPortal>
       <SelectContent 
-        class="overflow-hidden rounded-lg border border-[#2E2E2E] bg-white/[0.03] shadow-[0px_8px_30px_0px_rgba(0,0,0,0.12)] backdrop-blur-[25px]"
+        class="overflow-hidden rounded-lg border border-gray-200 dark:border-[#2E2E2E] bg-white dark:bg-white/[0.03] shadow-[0px_8px_30px_0px_rgba(0,0,0,0.12)] backdrop-blur-[25px]"
         position="popper"
         :side-offset="5"
       >
         <SelectViewport class="p-1">
-          <SelectScrollUpButton class="flex items-center justify-center h-[25px] bg-[#0A0C10] text-violet11 cursor-default">
+          <SelectScrollUpButton class="flex items-center justify-center h-[25px] bg-white/50 dark:bg-[#0A0C10] text-gray-600 dark:text-violet11 cursor-default">
             <Icon icon="mingcute:up-line" />
           </SelectScrollUpButton>
           <SelectItem
             v-for="(option, index) in props.itens.obj"
             :key="index"
             :value="option.value"
-            class="relative flex items-center px-6 py-2 text-sm text-gray-400 rounded-md outline-none hover:bg-gray-900 cursor-pointer data-[highlighted]:bg-gray-900 data-[highlighted]:text-white data-[state=checked]:text-white"
+            class="relative flex items-center px-6 py-2 text-sm text-gray-600 dark:text-gray-400 rounded-md outline-none hover:bg-gray-100 dark:hover:bg-gray-900 cursor-pointer data-[highlighted]:bg-gray-100 dark:data-[highlighted]:bg-gray-900 data-[highlighted]:text-gray-900 dark:data-[highlighted]:text-white data-[state=checked]:text-gray-900 dark:data-[state=checked]:text-white"
           >
             <SelectItemIndicator class="absolute left-1">
               <Icon icon="mingcute:check-line" class="h-4 w-4" />
             </SelectItemIndicator>
             <SelectItemText>{{ option.text }}</SelectItemText>
           </SelectItem>
-          <SelectScrollDownButton class="flex items-center justify-center h-[25px] bg-[#0A0C10] text-violet11 cursor-default">
+          <SelectScrollDownButton class="flex items-center justify-center h-[25px] bg-white/50 dark:bg-[#0A0C10] text-gray-600 dark:text-violet11 cursor-default">
             <Icon icon="mingcute:down-line" />
           </SelectScrollDownButton>
         </SelectViewport>

@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     getBarClass(groupIndex) {
-      if (!this.isActive) return 'bg-gray-900';
+      if (!this.isActive) return 'bg-gray-100 dark:bg-gray-900';
       
       let segmentCount = 0;
       for (let i = 0; i < groupIndex; i++) {
@@ -78,14 +78,14 @@ export default {
       let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
       
       if (allActiveSegments || hasActiveSegments) {
-        if (this.progressColor === 'red') return 'bg-red-900';
-        if (this.progressColor === 'blue') return 'bg-blue-900';
-        return 'bg-green-900';
+        if (this.progressColor === 'red') return 'bg-red-100 dark:bg-[#6C0404]';
+        if (this.progressColor === 'blue') return 'bg-blue-100 dark:bg-[#053B7A]';
+        return 'bg-green-100 dark:bg-[#21432A]';
       }
-      return 'bg-gray-900';
+      return 'bg-gray-100 dark:bg-[#272727]';
     },
     getSegmentClass(groupIndex, segmentIndex) {
-      if (!this.isActive) return 'bg-gray-700';
+      if (!this.isActive) return 'bg-gray-200 dark:bg-[#1A1A1A] dark:border dark:border-[#373737]';
 
       let segmentCount = 0;
       for (let i = 0; i < groupIndex; i++) {
@@ -99,16 +99,16 @@ export default {
       let hasActiveSegments = this.activeSegments > groupStart && this.activeSegments <= groupEnd;
       
       if (segmentCount < this.activeSegments) {
-        if (this.progressColor === 'red') return 'bg-red-500';
-        if (this.progressColor === 'blue') return 'bg-blue-500';
-        return 'bg-green-500';
+        if (this.progressColor === 'red') return 'bg-red-600 border-red-700 dark:bg-[#E00000] dark:border dark:border-[#FF6363]';
+        if (this.progressColor === 'blue') return 'bg-blue-600 border-blue-700 dark:bg-[#0079FE] dark:border dark:border-[#63B6FF]';
+        return 'bg-green-600 border-green-700 dark:bg-[#34C85A] dark:border dark:border-[#87E8A1]';
       } else {
         if (!hasActiveSegments) {
-          return 'bg-gray-700';
+          return 'bg-gray-200 dark:bg-[#1A1A1A] dark:border dark:border-[#373737]';
         } else {
-          if (this.progressColor === 'red') return 'bg-red-950';
-          if (this.progressColor === 'blue') return 'bg-blue-950';
-          return 'bg-green-950';
+          if (this.progressColor === 'red') return 'bg-red-50 dark:bg-[#450303]';
+          if (this.progressColor === 'blue') return 'bg-blue-50 dark:bg-[#032449]';
+          return 'bg-green-50 dark:bg-[#14291A]';
         }
       }
     }
@@ -117,39 +117,7 @@ export default {
 </script>
 
 <style scoped>
-.progress-bar.bg-red-900 {
-  background: #6C0404;
-}
-
-.progress-bar.bg-blue-900 {
-  background: #053B7A;
-}
-
-.progress-bar.bg-green-900 {
-  background: #21432A;
-}
-
-.progress-bar.bg-gray-900 {
-  background: #272727;
-}
-
-.bg-gray-700 {
-  border: 1px solid #373737;
-  background: #1A1A1A;
-}
-
-.bg-red-500 {
-  border: 1px solid #FF6363;
-  background: #E00000;
-}
-
-.bg-blue-500 {
-  border: 1px solid #63B6FF;
-  background: #0079FE;
-}
-
-.bg-green-500 {
-  border: 1px solid #87E8A1;
-  background: #34C85A;
+.progress-segment {
+  transition: all 0.2s ease-in-out;
 }
 </style>
