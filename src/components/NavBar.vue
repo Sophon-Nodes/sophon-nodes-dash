@@ -5,7 +5,7 @@
       <div class="">
         <div class="relative">
           <div class="flex items-center lg:px-12 h-16 min-w-0 mx-4 lg:mx-0">
-            <div class="h-full relative flex-1 flex items-center gap-x-4 min-w-0 border-b border-gray-500/5 dark:border-gray-300/[0.06]">
+            <div class="h-full relative flex-1 flex items-center gap-x-4 min-w-0 border-b border-gray-500/5 dark:border-gray-500/[0.06]">
               <div class="flex-1 flex items-center gap-x-4">
                 <a href="/">
                   <span class="sr-only">Sophon Nodes Dashboard home page</span>
@@ -14,14 +14,31 @@
                 <div class="flex items-center gap-x-2"></div>
               </div>
               <div class="flex-1 relative hidden lg:flex items-center ml-auto justify-end space-x-4">
-                <nav class="text-sm">
+                <nav class="text-sm" v-if="hasNavigationItems">
                   <ul class="flex space-x-6 items-center">
                     <li v-for="item in navigationItems" :key="item.title">
                       <a :href="item.url" class="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300">{{ item.title }}</a>
                     </li>
-                    <!-- TODO: Add dark and light mode toggle somewhere here or outside the list -->
                   </ul>
                 </nav>
+              </div>
+              <!-- Theme toggle -->
+              <div class="flex items-center">
+                <button 
+                  type="button"
+                  class="group rounded-lg bg-gray-900/5 p-2 hover:bg-gray-900/10"
+                  aria-label="Toggle dark mode"
+                  @click="toggleDarkMode"
+                >
+                  <Icon 
+                    icon="ph:sun-bold" 
+                    class="h-4 w-4 block text-gray-100 dark:hidden group-hover:text-gray-200"
+                  />
+                  <Icon 
+                    icon="ph:moon-bold" 
+                    class="h-4 w-4 hidden dark:block text-gray-500 dark:group-hover:text-gray-300"
+                  />
+                </button>
               </div>
               <!-- Mobile menu button -->
               <div v-if="hasNavigationItems" class="flex lg:hidden items-center gap-2">
@@ -41,11 +58,17 @@
 </template>
 
 <script setup>
-// Component logic will go here
+import { Icon } from '@iconify/vue'
+
+const toggleDarkMode = () => {
+  const isDark = document.documentElement.classList.toggle('dark')
+  localStorage.setItem('theme', isDark ? 'dark' : 'light')
+}
 </script>
 
 <script>
 export default {
+  name: 'NavBar',
   data() {
     return {
       navigationItems: [

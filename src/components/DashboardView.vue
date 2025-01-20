@@ -174,21 +174,21 @@ export default {
       <CardSkeleton v-for="n in 4" :key="n" />
     </div>
     <div v-else class="grid grid-cols-2 md:grid-cols-4 mt-6 gap-2 md:gap-4">
-      <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
-        <div class="text-slate-400 text-sm md:text-base font-normal">Total Nodes</div>
-        <div class="text-white text-xl md:text-2xl font-bold">{{ totalNodes }}</div>
+      <div class="flex-1 p-4 justify-start rounded-lg card-background border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
+        <div class="text-gray-600 dark:text-slate-400 text-sm md:text-base font-normal">Total Nodes</div>
+        <div class="text-gray-900 dark:text-white text-xl md:text-2xl font-bold">{{ totalNodes }}</div>
       </div>
-      <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
-        <div class="text-slate-400 text-sm md:text-base font-normal">Active Nodes</div>
-        <div class="text-white text-xl md:text-2xl font-bold">{{ activeNodes }}</div>
+      <div class="flex-1 p-4 justify-start rounded-lg card-background border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
+        <div class="text-gray-600 dark:text-slate-400 text-sm md:text-base font-normal">Active Nodes</div>
+        <div class="text-gray-900 dark:text-white text-xl md:text-2xl font-bold">{{ activeNodes }}</div>
       </div>
-      <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
-        <div class="text-slate-400 text-sm md:text-base font-normal">Average Uptime</div>
-        <div class="text-white text-xl md:text-2xl font-bold">{{ averageUptime }}</div>
+      <div class="flex-1 p-4 justify-start rounded-lg card-background border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
+        <div class="text-gray-600 dark:text-slate-400 text-sm md:text-base font-normal">Average Uptime</div>
+        <div class="text-gray-900 dark:text-white text-xl md:text-2xl font-bold">{{ averageUptime }}</div>
       </div>
-      <div class="flex-1 p-4 justify-start rounded-lg card-background border-[#505255] border-opacity-30 shadow-card">
-        <div class="text-slate-400 text-sm md:text-base font-normal">Average Fee</div>
-        <div class="text-white text-xl md:text-2xl font-bold">{{ averageFee }}</div>
+      <div class="flex-1 p-4 justify-start rounded-lg card-background border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
+        <div class="text-gray-600 dark:text-slate-400 text-sm md:text-base font-normal">Average Fee</div>
+        <div class="text-gray-900 dark:text-white text-xl md:text-2xl font-bold">{{ averageFee }}</div>
       </div>
     </div>
 
@@ -206,11 +206,11 @@ export default {
             type="text" 
             v-model="operatorFilter"
             placeholder="Search operators..."
-            class="block w-full pl-10 pr-4 py-2 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card"
+            class="block w-full pl-10 pr-4 py-2 rounded-lg bg-white/50 dark:bg-[#0A0C10] text-gray-900 dark:text-white border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
         <div class="flex items-center gap-2">
-          <div class="relative flex p-1 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card">
+          <div class="relative flex p-1 rounded-lg bg-white/50 dark:bg-[#0A0C10] text-gray-900 dark:text-white border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
             <ToggleGroupRoot
               :model-value="viewMode"
               @update:model-value="handleViewModeChange"
@@ -221,31 +221,31 @@ export default {
               <ToggleGroupItem
                 value="grid"
                 aria-label="Grid view"
-                class="p-2 rounded-[5px] hover:bg-slate-800/50 data-[state=on]:bg-slate-800"
+                class="p-2 rounded-[5px] hover:bg-gray-100 dark:hover:bg-slate-800/50 data-[state=on]:bg-gray-200 dark:data-[state=on]:bg-slate-800"
               >
                 <Icon icon="mingcute:grid-line" width="16" height="16" />
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="list"
                 aria-label="List view"
-                class="p-2 rounded-[5px] hover:bg-slate-800/50 data-[state=on]:bg-slate-800"
+                class="p-2 rounded-[5px] hover:bg-gray-100 dark:hover:bg-slate-800/50 data-[state=on]:bg-gray-200 dark:data-[state=on]:bg-slate-800"
               >
                 <Icon icon="nimbus:list" width="16" height="16" />
               </ToggleGroupItem>
             </ToggleGroupRoot>
           </div>
-          <div class="relative flex p-1 rounded-lg bg-[#0A0C10] text-white border-[#505255] border-opacity-30 shadow-card">
+          <div class="relative flex p-1 rounded-lg bg-white/50 dark:bg-[#0A0C10] text-gray-900 dark:text-white border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
             <button 
               @click="filtersToggle = !filtersToggle" 
-              class="p-2 rounded-[5px] hover:bg-slate-800/50"
-              :class="{ 'bg-slate-800': filtersToggle }"
+              class="p-2 rounded-[5px] hover:bg-gray-100 dark:hover:bg-slate-800/50"
+              :class="{ 'bg-gray-200 dark:bg-slate-800': filtersToggle }"
             >
               <Icon icon="ion:filter" width="16" height="16" />
             </button>
           </div>
         </div>      
       </div>      
-        <div v-if="filtersToggle" class="flex-col items-center p-3 mb-6 rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card">          
+        <div v-if="filtersToggle" class="flex-col items-center p-3 mb-6 rounded-lg bg-white/50 dark:bg-[#0A0C10] border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">          
           <div class="flex gap-4">            
             <div class="flex-col">
               <div class="mb-1">Status</div>
@@ -304,9 +304,15 @@ export default {
             src="https://mkdv.b-cdn.net/images/sophon-nodes/favorite-img.png" 
             @error="$event.target.src = require('@/assets/images/graphics/favorite-img.png')" 
             alt="No favorites" 
-            class="w-[48rem] max-w-full h-auto mb-4" 
+            class="w-[48rem] max-w-full h-auto mb-4 hidden dark:block" 
           />
-          <p class="text-slate-400 text-base lg:text-lg text-center">Select some favorites to show them here</p>
+          <img 
+            src="https://mkdv.b-cdn.net/images/sophon-nodes/favorite-img-light.png" 
+            @error="$event.target.src = require('@/assets/images/graphics/favorite-img-light.png')" 
+            alt="No favorites" 
+            class="w-[48rem] max-w-full h-auto mb-4 block dark:hidden" 
+          />
+          <p class="text-slate-900 dark:text-slate-400 text-base lg:text-lg text-center">Select some favorites to show them here</p>
         </div>
         <TransitionGroup
           name="layout"
@@ -345,11 +351,11 @@ export default {
             class="flex items-center gap-1"
             @update:page="fetchNodes"
           >
-            <PaginationList v-slot="{ items }" class="flex items-center gap-1 text-white">
-              <PaginationFirst class="w-9 h-9 flex items-center justify-center disabled:opacity-50 hover:bg-white/10 transition rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card">
+            <PaginationList v-slot="{ items }" class="flex items-center gap-1 text-gray-900 dark:text-white">
+              <PaginationFirst class="w-9 h-9 flex items-center justify-center disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-white/10 transition rounded-lg bg-white/50 dark:bg-[#0A0C10] border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
                 <DoubleChevronLeft />
               </PaginationFirst>
-              <PaginationPrev class="w-9 h-9 flex items-center justify-center ml-1 mr-2 disabled:opacity-50 hover:bg-white/10 transition rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card">
+              <PaginationPrev class="w-9 h-9 flex items-center justify-center ml-1 mr-2 disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-white/10 transition rounded-lg bg-white/50 dark:bg-[#0A0C10] border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
                 <ChevronLeft />
               </PaginationPrev>
 
@@ -358,7 +364,7 @@ export default {
                   v-if="page.type === 'page'"
                   :key="index"
                   :value="page.value"
-                  class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card data-[selected]:bg-white/10 hover:bg-white/10 transition"
+                  class="w-9 h-9 flex items-center justify-center rounded-lg bg-white/50 dark:bg-[#0A0C10] border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card data-[selected]:bg-gray-200 dark:data-[selected]:bg-white/10 hover:bg-gray-100 dark:hover:bg-white/10 transition"
                 >
                   {{ page.value }}
                 </PaginationListItem>
@@ -366,16 +372,16 @@ export default {
                   v-else
                   :key="page.type"
                   :index="index"
-                  class="w-9 h-9 flex items-center justify-center"
+                  class="w-9 h-9 flex items-center justify-center text-gray-600 dark:text-gray-400"
                 >
                   &#8230;
                 </PaginationEllipsis>
               </template>
 
-              <PaginationNext class="w-9 h-9 flex items-center justify-center ml-2 mr-1 disabled:opacity-50 hover:bg-white/10 transition rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card">
+              <PaginationNext class="w-9 h-9 flex items-center justify-center ml-2 mr-1 disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-white/10 transition rounded-lg bg-white/50 dark:bg-[#0A0C10] border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
                 <ChevronRight />
               </PaginationNext>
-              <PaginationLast class="w-9 h-9 flex items-center justify-center disabled:opacity-50 hover:bg-white/10 transition rounded-lg bg-[#0A0C10] border-[#505255] border-opacity-30 shadow-card">
+              <PaginationLast class="w-9 h-9 flex items-center justify-center disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-white/10 transition rounded-lg bg-white/50 dark:bg-[#0A0C10] border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
                 <DoubleChevronRight />
               </PaginationLast>
             </PaginationList>
@@ -387,7 +393,7 @@ export default {
 
 <style>
 .card-background {
-  background: theme('colors.zinc.950 / 48%');
+  @apply bg-gradient-to-b from-[rgb(248,247,242)] to-[rgb(238,243,242)] dark:from-transparent dark:to-transparent dark:bg-zinc-950/50;
 }
 
 .shadow-card {
