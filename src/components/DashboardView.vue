@@ -257,7 +257,7 @@ export default {
                 ],
                 filterType: 'nodeStatus',
                 function: 'updateOthersFilter',
-                defaultVal: 'true'
+                defaultVal: othersFilters.nodeStatus
               }" />
             </div>
             <div class="flex-col">
@@ -272,7 +272,7 @@ export default {
                 ],
                 filterType: 'sortBy',
                 function: 'updateOthersFilter',
-                defaultVal: 'nodeUptime'
+                defaultVal: othersFilters.sortBy
               }" />
             </div>
             <div class="flex-col">
@@ -284,7 +284,7 @@ export default {
                 ],
                 filterType: 'sortOrder',
                 function: 'updateOthersFilter',
-                defaultVal: 'desc'
+                defaultVal: othersFilters.sortOrder
               }" />
             </div>
           </div>
