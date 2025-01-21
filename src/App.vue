@@ -2,7 +2,7 @@
 <template>
   <div class="relative antialiased text-gray-500 dark:text-gray-400">
     <span class="fixed inset-0 bg-background-light dark:bg-background-dark -z-10"></span>
-    <span class="block fixed dark:hidden inset-0 overflow-hidden h-[64rem] -z-10" 
+    <span class="block fixed dark:hidden inset-0 overflow-hidden h-screen -z-10" 
           style="background:linear-gradient(180deg,#5cbee1,#96ccda)">
     </span>
     <span class="hidden absolute dark:block inset-0 overflow-hidden h-[64rem] -z-10" 

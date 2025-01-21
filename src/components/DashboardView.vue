@@ -73,7 +73,7 @@ export default {
     async fetchNodes() {
       try {
         this.loading = true;
-        let url = 'https://api.sophonnodes.xyz/nodes';
+        let url = process.env.NODE_ENV === 'development' ? '/api/nodes' : 'https://api.sophonnodes.xyz/nodes';
         const params = new URLSearchParams();
         
         params.append('page', this.currentPage);
