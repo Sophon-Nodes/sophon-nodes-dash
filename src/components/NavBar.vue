@@ -59,11 +59,6 @@
 
 <script setup>
 import { Icon } from '@iconify/vue'
-
-const toggleDarkMode = () => {
-  const isDark = document.documentElement.classList.toggle('dark')
-  localStorage.setItem('theme', isDark ? 'dark' : 'light')
-}
 </script>
 
 <script>
@@ -76,12 +71,38 @@ export default {
         // { title: 'Home', url: '/' },
         // { title: 'About', url: '/about' },
         // { title: 'Contact', url: '/contact' },
-      ]
+      ],
+      isScrolled: false
+    }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
+  methods: {
+    toggleDarkMode() {
+      document.documentElement.classList.toggle('dark')
+      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+    },
+    handleScroll() {
+      this.isScrolled = window.scrollY > 0
+      const transitionDiv = document.getElementById('navbar-transition')
+      if (transitionDiv) {
+        if (this.isScrolled && !document.documentElement.classList.contains('dark')) {
+          transitionDiv.style.backgroundColor = '#61BFE0'
+          transitionDiv.style.opacity = '1'
+        } else {
+          transitionDiv.style.backgroundColor = ''
+          transitionDiv.style.opacity = ''
+        }
+      }
     }
   },
   computed: {
     hasNavigationItems() {
-      return this.navigationItems.length > 0
+      return this.navigationItems && this.navigationItems.length > 0
     }
   }
 }

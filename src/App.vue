@@ -12,6 +12,7 @@
       <div class="min-h-screen">
         <NavBar />
         <DashboardView />
+        <AppFooter />
       </div>
     </TooltipProvider>
   </div>
@@ -19,6 +20,7 @@
 
 <script>
 import NavBar from './components/NavBar.vue';
+import AppFooter from './components/AppFooter.vue';
 import DashboardView from './components/DashboardView.vue';
 import { TooltipProvider } from 'radix-vue';
 
@@ -26,6 +28,7 @@ export default {
   name: 'App',
   components: {
     NavBar,
+    AppFooter,
     DashboardView,
     TooltipProvider
   },
