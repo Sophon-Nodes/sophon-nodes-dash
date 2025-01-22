@@ -136,7 +136,7 @@ export default {
       this.perPage = value[1];
     },
     updateFavorites(){
-      this.favoritesNodes = JSON.parse(localStorage.getItem('favorites'));
+      this.favoritesNodes = JSON.parse(localStorage.getItem('favorites') || '[]');
     },
     handleViewModeChange(newValue) {
       // Only update if a value is provided and it's different from current
