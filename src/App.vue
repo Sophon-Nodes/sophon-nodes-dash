@@ -9,7 +9,7 @@
           style="background:radial-gradient(49.63% 57.02% at 58.99% -7.2%, rgba(43, 149, 255, 0.1) 39.4%, rgba(0, 0, 0, 0) 100%)">
     </span>
     <TooltipProvider>
-      <div class="min-h-screen">
+      <div vaul-drawer-wrapper class="min-h-screen">
         <NavBar />
         <DashboardView />
         <AppFooter />
@@ -35,10 +35,18 @@ export default {
   mounted() {
     // Get theme from localStorage or default to dark
     const theme = localStorage.getItem('theme') || 'dark';
-    if (theme === 'dark') {
+    const isDark = theme === 'dark'
+  
+    if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
+    }
+
+    // Update theme-color meta tag
+    const themeColor = document.querySelector('meta[name="theme-color"]')
+    if (themeColor) {
+      themeColor.setAttribute('content', isDark ? '#0F1725' : '#5FBFE1')
     }
   }
 }
