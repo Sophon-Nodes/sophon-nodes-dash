@@ -84,7 +84,14 @@ export default {
   methods: {
     toggleDarkMode() {
       document.documentElement.classList.toggle('dark')
-      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+      const isDark = document.documentElement.classList.contains('dark')
+      localStorage.theme = isDark ? 'dark' : 'light'
+      
+      // Update theme-color meta tag
+      const themeColor = document.querySelector('meta[name="theme-color"]')
+      if (themeColor) {
+        themeColor.setAttribute('content', isDark ? '#0F1725' : '#5FBFE1')
+      }
     },
     handleScroll() {
       this.isScrolled = window.scrollY > 0

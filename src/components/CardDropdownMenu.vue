@@ -1,7 +1,6 @@
 <script setup>
 import EllipsisIcon from './icons/EllipsisIcon.vue';
 import NodeDelegators from './icons/NodeDelegators.vue';
-import DetailsIcon from './icons/DetailsIcon.vue';
 import { Icon } from '@iconify/vue';
 import {
   DropdownMenuRoot,
@@ -11,6 +10,7 @@ import {
   DropdownMenuPortal,
 } from 'radix-vue';
 import { ref } from 'vue';
+import NodeDetailsDrawer from './NodeDetailsDrawer.vue';
 
 const emit = defineEmits(['select']);
 const props = defineProps({
@@ -26,6 +26,7 @@ const props = defineProps({
 
 const isCopied = ref(false);
 const isFavorite = props.isFavorite ? ref(props.isFavorite) : ref(false);
+const isOpen = ref(false)
 
 const copyToClipboard = async (event) => {
   event.preventDefault();
@@ -61,10 +62,16 @@ const setFavorite = async (event) => {
 const handleSelect = async (option) => {
   emit('select', option);
 };
+
+const handleDrawerOpen = (open) => {
+  if (open) {
+    isOpen.value = false
+  }
+}
 </script>
 
 <template>
-  <DropdownMenuRoot>
+  <DropdownMenuRoot v-model:open="isOpen">
     <DropdownMenuTrigger>
       <button class="w-8 h-8 p-1.5 rounded-md border border-gray-200 dark:border-gray-800 flex items-center justify-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800">
         <EllipsisIcon />
@@ -96,16 +103,11 @@ const handleSelect = async (option) => {
             {{ isFavorite ? 'My Favorite' :  'Add Favorite' }}
           </span>
         </DropdownMenuItem>
+        <NodeDetailsDrawer :node="node" @openChange="handleDrawerOpen" />
         <DropdownMenuItem disabled @select="handleSelect('Option 3')" class="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-2 py-1.5 rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 outline-none">
           <span class="flex items-center gap-2 w-full">
             <NodeDelegators class="w-5 h-5" />
             Delegate <Icon icon="hugeicons:coming-soon-01" class="w-5 h-5" />
-          </span>
-        </DropdownMenuItem>
-        <DropdownMenuItem disabled @select="handleSelect('Option 4')" class="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-2 py-1.5 rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 outline-none">
-          <span class="flex items-center gap-2 w-full">
-            <DetailsIcon class="w-5 h-5" />
-            View Details <Icon icon="hugeicons:coming-soon-01" class="w-5 h-5" />
           </span>
         </DropdownMenuItem>
       </DropdownMenuContent>
