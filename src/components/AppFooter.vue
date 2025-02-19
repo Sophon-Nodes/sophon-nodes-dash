@@ -1,5 +1,5 @@
 <template>
-  <footer class="px-4 lg:px-12 mt-8 max-w-8xl mx-auto">
+  <footer class="w-full px-4 lg:px-12 mt-8 max-w-8xl mx-auto">
     <div class="border-t border-gray-200 dark:border-gray-800 py-8">
       <nav class="container mx-auto px-4 flex justify-center items-center space-x-6 text-sm text-white/90 dark:text-gray-400">
         <a href="https://sophon.xyz" target="_blank" rel="noopener noreferrer"

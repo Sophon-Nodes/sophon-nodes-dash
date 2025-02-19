@@ -18,7 +18,11 @@ import {
   PaginationLast,
   PaginationEllipsis,
   ToggleGroupItem, 
-  ToggleGroupRoot 
+  ToggleGroupRoot,
+  TooltipRoot,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipPortal
 } from 'radix-vue';
 
 export default {
@@ -42,7 +46,11 @@ export default {
     SelectComponent,
     Icon,
     ToggleGroupItem,
-    ToggleGroupRoot
+    ToggleGroupRoot,
+    TooltipRoot,
+    TooltipTrigger,
+    TooltipContent,
+    TooltipPortal
   },
   data() {
     return {
@@ -136,7 +144,17 @@ export default {
       this.perPage = value[1];
     },
     updateFavorites(){
-      this.favoritesNodes = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const newFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      this.favoritesNodes = newFavorites;
+      
+      // If in favorites view, filter out unfavorited nodes locally for smooth transition
+      if (this.othersFilters.sortBy === 'favoritesNodes') {
+        this.nodes = this.nodes.filter(node => newFavorites.includes(node.operator));
+        // Only fetch if all favorites were removed to show empty state
+        if (newFavorites.length === 0) {
+          this.fetchNodes();
+        }
+      }
     },
     handleViewModeChange(newValue) {
       // Only update if a value is provided and it's different from current
@@ -235,6 +253,31 @@ export default {
             </ToggleGroupRoot>
           </div>
           <div class="relative flex p-1 rounded-lg bg-white/50 dark:bg-[#0A0C10] text-gray-900 dark:text-white border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
+            <TooltipRoot>
+              <TooltipTrigger asChild>
+                <button 
+                  @click="updateOthersFilter(['sortBy', othersFilters.sortBy === 'favoritesNodes' ? 'nodeUptime' : 'favoritesNodes'])" 
+                  class="p-2 rounded-[5px] hover:bg-gray-100 dark:hover:bg-slate-800/50"
+                  :class="{ 'bg-gray-200 dark:bg-slate-800': othersFilters.sortBy === 'favoritesNodes' }"
+                >
+                  <Icon :icon="othersFilters.sortBy === 'favoritesNodes' ? 'mdi:heart' : 'mdi:heart-outline'" 
+              :class="othersFilters.sortBy === 'favoritesNodes' ? 'text-red-500' : ''" 
+              width="16" height="16" 
+            />
+                </button>
+              </TooltipTrigger>
+              <TooltipPortal>
+                <TooltipContent 
+                  class="px-3 py-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-md shadow-lg"
+                  :side="'top'"
+                  :sideOffset="5"
+                >
+                  Toggle favorites
+                </TooltipContent>
+              </TooltipPortal>
+            </TooltipRoot>
+          </div>
+          <div class="relative flex p-1 rounded-lg bg-white/50 dark:bg-[#0A0C10] text-gray-900 dark:text-white border-gray-200 dark:border-[#505255] border-opacity-10 dark:border-opacity-30 shadow-card">
             <button 
               @click="filtersToggle = !filtersToggle" 
               class="p-2 rounded-[5px] hover:bg-gray-100 dark:hover:bg-slate-800/50"
@@ -267,8 +310,7 @@ export default {
                   {text: 'Uptime', value: 'nodeUptime'},
                   {text: 'Delegations', value: 'nodesDelegated'},
                   {text: 'Fee', value: 'nodeFee'},
-                  {text: 'Rewards', value: 'nodeRewards'},
-                  {text: 'Favorites', value: 'favoritesNodes'}
+                  {text: 'Rewards', value: 'nodeRewards'}
                 ],
                 filterType: 'sortBy',
                 function: 'updateOthersFilter',

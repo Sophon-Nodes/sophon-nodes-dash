@@ -9,9 +9,11 @@
           style="background:radial-gradient(49.63% 57.02% at 58.99% -7.2%, rgba(43, 149, 255, 0.1) 39.4%, rgba(0, 0, 0, 0) 100%)">
     </span>
     <TooltipProvider>
-      <div vaul-drawer-wrapper class="min-h-screen">
+      <div vaul-drawer-wrapper class="min-h-screen flex flex-col">
         <NavBar />
-        <DashboardView />
+        <div class="flex-1">
+          <DashboardView />
+        </div>
         <AppFooter />
       </div>
     </TooltipProvider>
