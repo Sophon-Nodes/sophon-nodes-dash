@@ -33,11 +33,11 @@ import { Icon } from '@iconify/vue'
         </DialogDescription>
         <div class="grid grid-cols-1 gap-3">
             <button type="button" class="flex justify-between w-100 p-3 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">
-                <span class="w-1/3 flex items-center">MetaMask</span>
+                <span class="w-1/3 flex items-center text-sm">MetaMask</span>
                 <span class="w-8 flex items-center justify-center"><Icon icon="logos:metamask-icon" width="25.6" height="24" /></span>
             </button>
             <button type="button" class="flex justify-between w-100 p-3 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">
-                <span class="w-1/3 flex items-center">WalletConnect</span>
+                <span class="w-1/3 flex items-center text-sm">WalletConnect</span>
                 <span class="w-8 flex items-center justify-center"><Icon icon="simple-icons:walletconnect" width="24" height="24" style="color: #0c83db" /></span>
             </button>            
         </div>
