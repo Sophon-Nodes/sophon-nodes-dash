@@ -22,6 +22,9 @@
                   </ul>
                 </nav>
               </div>
+              <div class="flex items-center">
+                <AuthModal />
+              </div>
               <!-- Theme toggle -->
               <div class="flex items-center">
                 <button 
@@ -58,7 +61,8 @@
 </template>
 
 <script setup>
-import { Icon } from '@iconify/vue'
+import { Icon } from '@iconify/vue';
+import AuthModal from './AuthModal.vue';
 </script>
 
 <script>
