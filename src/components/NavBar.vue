@@ -23,7 +23,7 @@
                 </nav>
               </div>
               <div class="flex items-center">
-                <AuthModal />
+                <ReownAppKit />
               </div>
               <!-- Theme toggle -->
               <div class="flex items-center">
@@ -62,7 +62,8 @@
 
 <script setup>
 import { Icon } from '@iconify/vue';
-import AuthModal from './AuthModal.vue';
+//import AuthModal from './AuthModal.vue';
+import ReownAppKit from './ReownAppKit.vue';
 </script>
 
 <script>
