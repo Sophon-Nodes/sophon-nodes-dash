@@ -14,7 +14,7 @@
     icons: ['https://assets.reown.com/reown-profile-pic.png']
   }
 
-   createAppKit({
+  createAppKit({
     adapters: [new Ethers5Adapter()],
     networks: [mainnet, arbitrum],
     metadata,
@@ -29,6 +29,7 @@
 
 <template>
     <button @click="modal.open()">
-        <Icon icon="token-branded:metamask" width="24" height="24" />
+        <!-- <Icon icon="token-branded:metamask" width="24" height="24" /> -->
+        <Icon class="h-5 w-5 block text-gray-100 hover:text-gray-200 dark:text-gray-500 dark:hover:text-gray-300" icon="iconoir:wallet-solid" width="24" height="24" />
     </button>
 </template>
