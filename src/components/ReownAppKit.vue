@@ -1,8 +1,8 @@
 
 <script setup>
-  import { createAppKit, useAppKit } from '@reown/appkit/vue'
-  import { Ethers5Adapter } from '@reown/appkit-adapter-ethers5'
+  import { createAppKit } from '@reown/appkit/vue'
   import { defineChain } from '@reown/appkit/networks'
+  import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
   import { Icon } from '@iconify/vue'
 
   const projectId = process.env.VUE_APP_REOWN_PROJECT_ID
@@ -10,8 +10,7 @@
   const customNetworkIcon = { 
     src: new URL('../assets/images/logos/network_sophon_logo.jpeg', import.meta.url).href,
     alt: 'Sophon Network Logo',
-  }
-  
+  }  
 
   const metadata = {
     name: 'sophonnodes',
@@ -32,8 +31,8 @@
     },
     rpcUrls: {
       default: {
-        http: ['https://rpc.sophon.xyz'],
-        webSocket: ['wss://rpc.sophon.xyz/ws'],
+        http: [process.env.VUE_APP_HTTP_RPC_SOPHON],
+        webSocket: [process.env.VUE_APP_WS_RPC_SOPHON],
       },
     },
     blockExplorers: {
@@ -44,9 +43,16 @@
     }
   })
 
-  createAppKit({
-    adapters: [new Ethers5Adapter()],
-    networks: [sophonNetwork],
+  const networks = [sophonNetwork]
+
+  const wagmiAdapter = new WagmiAdapter({
+    networks,
+    projectId
+  })
+
+  const modal = createAppKit({
+    adapters: [wagmiAdapter],
+    networks,
     chainImages: { // Customize networks' logos
       50104: customNetworkIcon.src,
     },
@@ -66,9 +72,7 @@
       'a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393',
       '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0'
     ]
-  })
-
-  const modal = useAppKit()
+  })  
 </script>
 
 <template>
